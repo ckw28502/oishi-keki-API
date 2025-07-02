@@ -8,11 +8,16 @@ dotenv.config();
 
 const app = express();
 
+// Determine current environment mode, default to 'dev' if not set
+const NODE_ENV = process.env.NODE_ENV || "dev";
+
 // Setup middlewares like CORS, JSON parsing, Helmet, etc.
 setupMiddlewares(app);
 
-// Setup Swagger UI documentation endpoint
-setupSwagger(app);
+if (NODE_ENV === "dev") {
+  // Setup Swagger UI for API documentation in development mode
+  setupSwagger(app);
+}
 
 // Use PORT from environment variables, default to 3000 if not specified
 const PORT = process.env.PORT || 3000;

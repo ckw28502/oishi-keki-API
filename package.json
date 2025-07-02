@@ -76,5 +76,10 @@
   "bugs": {
     "url": "https://github.com/ckw28502/oishi-keki-API/issues"
   },
-  "homepage": "https://github.com/ckw28502/oishi-keki-API#readme"
+  "homepage": "https://github.com/ckw28502/oishi-keki-API#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
 }

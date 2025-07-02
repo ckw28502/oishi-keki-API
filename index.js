@@ -1,32 +1,26 @@
 import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
 import dotenv from 'dotenv';
+import { setupMiddlewares } from './config/middleware.js';
+import { setupSwagger } from './config/Swagger.js';
 
-// Load environment variables from a .env file into process.env
+// Load environment variables from .env file into process.env
 dotenv.config();
 
 const app = express();
 
-// Use the PORT value from environment variables or default to "3000" if not set
-const PORT = process.env.PORT || "3000";
+// Setup middlewares like CORS, JSON parsing, Helmet, etc.
+setupMiddlewares(app);
 
-// Middleware setup
+// Setup Swagger UI documentation endpoint
+setupSwagger(app);
 
-// Enable CORS (Cross-Origin Resource Sharing) to allow your API to accept requests from different origins
-app.use(cors());
+// Use PORT from environment variables, default to 3000 if not specified
+const PORT = process.env.PORT || 3000;
 
-// Built-in middleware to parse incoming requests with JSON payloads
-app.use(express.json());
-
-// Helmet helps secure your Express app by setting various HTTP headers
-// It protects against well-known web vulnerabilities by setting appropriate headers
-app.use(helmet());
-
-// Disable the 'X-Powered-By' header to prevent exposing that the server is running Express
-app.disable('x-powered-by');
-
-// Start the server and listen on the specified port
+// Start the Express server on the specified port
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
+
+// Export the app for testing or further use
+export default app;

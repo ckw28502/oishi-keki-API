@@ -3,18 +3,33 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Load environment variables from .env file
+// Load environment variables from a .env file into process.env
+// This allows you to configure sensitive data (like PORT, DB credentials) without hardcoding them
+dotenv.config();
 
 const app = express();
+
+// Use the PORT value from environment variables or default to "3000" if not set
 const PORT = process.env.PORT || "3000";
 
-// Middleware
+// Middleware setup
+
+// Enable CORS (Cross-Origin Resource Sharing) to allow your API to accept requests from different origins
 app.use(cors());
-app.use(express.json()); // Parse JSON bodies
-app.use(helmet()); // Security middleware
 
-app.disable('x-powered-by'); // Disable 'X-Powered-By' header for security
+// Built-in middleware to parse incoming requests with JSON payloads
+// This allows you to access request data via req.body in JSON format
+app.use(express.json());
 
+// Helmet helps secure your Express app by setting various HTTP headers
+// It protects against well-known web vulnerabilities by setting appropriate headers
+app.use(helmet());
+
+// Disable the 'X-Powered-By' header to prevent exposing that the server is running Express
+// This is a security best practice to make it harder for attackers to identify your technology stack
+app.disable('x-powered-by');
+
+// Start the server and listen on the specified port
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

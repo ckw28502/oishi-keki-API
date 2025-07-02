@@ -4,38 +4,32 @@ import dotenv from 'dotenv';
 // Load environment variables from .env file into process.env
 dotenv.config();
 
-// Destructure validators from envalid
+// Destructure validators from envalid for convenience
 const { str, port } = envalid;
 
-// Validate and clean environment variables
-// If any required variable is missing or invalid, this will throw an error and stop the app
+// Validate and clean environment variables to ensure required config is present and correctly typed
+// If validation fails, the app will throw an error and stop
 const env = envalid.cleanEnv(process.env, {
-    // PORT: the port number your Express app will listen on
-    // Default to 3000 if not set
+    // PORT: Port number for the Express server to listen on (default: 3000)
     PORT: port({ default: 3000 }),
 
-    // NODE_ENV: the environment mode, must be one of 'dev', 'test', or 'prod'
-    // No default, so it must be explicitly set
+    // NODE_ENV: Application environment mode, must be one of 'dev', 'test', or 'prod'
     NODE_ENV: str({ choices: ['dev', 'test', 'prod'] }),
 
-    // APP_VERSION: version of your application
-    // Required string, no default, good for tracking deployments
+    // APP_VERSION: Version of the application, useful for tracking deployments
     APP_VERSION: str(),
 
-    // PostgreSQL database username (required)
-    POSTGRES_USER: str(),
+    // PostgreSQL database connection details
+    POSTGRES_USER: str(),       // Database username
+    POSTGRES_PASSWORD: str(),   // Database password
+    POSTGRES_DB: str(),         // Database name
+    POSTGRES_HOST: str(),       // Database host address
+    POSTGRES_PORT: port({ default: 5432 }),  // Database port number (default: 5432)
 
-    // PostgreSQL database password (required)
-    POSTGRES_PASSWORD: str(),
-
-    // PostgreSQL database name (required)
-    POSTGRES_DB: str(),
-
-    // PostgreSQL host address (required)
-    POSTGRES_HOST: str(),
-
-    // PostgreSQL port number with default of 5432
-    POSTGRES_PORT: port({ default: 5432 }),
+    // Cloudinary configuration for media storage (image uploads)
+    CLOUDINARY_CLOUD_NAME: str(), // Cloudinary cloud name
+    CLOUDINARY_API_KEY: str(),    // Cloudinary API key
+    CLOUDINARY_API_SECRET: str()  // Cloudinary API secret
 });
 
 export default env;

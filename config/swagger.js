@@ -19,7 +19,7 @@ export function setupSwagger(app) {
       },
       servers: [
         {
-          url: "http://localhost:3000", // Base URL of the API server (update for production)
+          url: "http://localhost:3000", // Base URL of the API server for development
         },
       ],
     },

@@ -1,5 +1,6 @@
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import env from './env.js';
 
 /**
  * Setup Swagger UI for API documentation.
@@ -13,8 +14,8 @@ export function setupSwagger(app) {
     definition: {
       openapi: "3.0.0", // OpenAPI specification version
       info: {
-        title: "Oishi Keki API", // API title
-        version: process.env.APP_VERSION || "1.0.0",        // API version
+        title: "Oishi Keki API",  // API title
+        version: env.APP_VERSION, // API version
         description: "API documentation for the Oishi Keki backend", // Description
       },
       servers: [

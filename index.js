@@ -1,15 +1,12 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import { setupMiddlewares } from './config/middleware.js';
 import { setupSwagger } from './config/Swagger.js';
-
-// Load environment variables from .env file into process.env
-dotenv.config();
+import env from './config/env.js';
 
 const app = express();
 
 // Determine current environment mode, default to 'dev' if not set
-const NODE_ENV = process.env.NODE_ENV || "dev";
+const NODE_ENV = env.NODE_ENV;
 
 // Setup middlewares like CORS, JSON parsing, Helmet, etc.
 setupMiddlewares(app);
@@ -20,7 +17,7 @@ if (NODE_ENV === "dev") {
 }
 
 // Use PORT from environment variables, default to 3000 if not specified
-const PORT = process.env.PORT || 3000;
+const PORT = env.PORT;
 
 // Start the Express server on the specified port
 app.listen(PORT, () => {

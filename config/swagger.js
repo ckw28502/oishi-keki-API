@@ -14,7 +14,7 @@ export function setupSwagger(app) {
       openapi: "3.0.0", // OpenAPI specification version
       info: {
         title: "Oishi Keki API", // API title
-        version: "1.0.0",        // API version
+        version: process.env.APP_VERSION || "1.0.0",        // API version
         description: "API documentation for the Oishi Keki backend", // Description
       },
       servers: [

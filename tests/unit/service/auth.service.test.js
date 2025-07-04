@@ -3,6 +3,7 @@ import authService from "../../../services/auth/auth.service.js";
 import { InvalidCredentialsError } from "../../../errors/400/invalidCredentials.error.js";
 import { verifyToken } from "../../../utils/jwt.js"; 
 import { ROLES } from "../../../constants/role.js";
+import env from "../../../config/env.js";
 
 describe('Authentication service', () => { 
     describe('Login', () => { 
@@ -52,7 +53,7 @@ describe('Authentication service', () => {
             expect(typeof accessToken).toBe("string");
             
             // Verify the access token payload
-            const accessTokenPayload = verifyToken(accessToken, process.env.JWT_ACCESS_TOKEN_SECRET);
+            const accessTokenPayload = verifyToken(accessToken, env.JWT_ACCESS_TOKEN_SECRET);
             expect(accessTokenPayload).toBeDefined();
             
             expect(accessTokenPayload.role).toBeDefined();
@@ -66,7 +67,7 @@ describe('Authentication service', () => {
             expect(typeof refreshToken).toBe("string");
 
             // Verify the refresh token payload
-            const refreshTokenPayload = verifyToken(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET);
+            const refreshTokenPayload = verifyToken(refreshToken, env.JWT_REFRESH_TOKEN_SECRET);
             expect(refreshTokenPayload).toBeDefined();
             
             expect(refreshTokenPayload.role).toBeDefined();

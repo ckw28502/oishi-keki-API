@@ -1,6 +1,7 @@
 import env from "../../config/env.js";
 import { ROLES } from "../../constants/role.js";
 import { createError } from "../../utils/errors.js";
+import { generateTokens } from "../../utils/jwt.js";
 
 // This file handles user authentication by checking credentials against predefined values.
 const credentials = [
@@ -16,12 +17,12 @@ const credentials = [
     },
 ];
 
-/** * Authenticates a user based on username and password.
+/** Authenticates a user based on username and password.
  * 
  * @param {string} username - The username of the user.
  * @param {string} password - The password of the user.
- * @returns {Promise<string>} - Returns the role of the authenticated user.
- * @throws {Error} - Throws an error if authentication fails.
+ * @returns {Promise<object>} - A promise that resolves to an object containing access and refresh tokens.
+ * @throws {Error} - Throws an error if the username or password is incorrect.
  */
 const login = async (username, password) => {
     // Check if the provided username and password match any of the credentials
@@ -32,9 +33,10 @@ const login = async (username, password) => {
         throw createError(400, "Nama pengguna atau kata sandi salah"); 
     }
 
-    return user.role;
+    // Generate authentication tokens for the user based on their role
+    const tokens = generateTokens(user.role);
+    
+    return tokens;
 };
-
-
 
 export default { login };

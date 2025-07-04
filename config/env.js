@@ -37,7 +37,11 @@ const env = envalid.cleanEnv(process.env, {
 
     // Employee credentials for staff access
     EMPLOYEE_USER: str(),
-    EMPLOYEE_PASSWORD: str()
+    EMPLOYEE_PASSWORD: str(),
+
+    // JWT secret for signing tokens, must be a strong secret
+    JWT_ACCESS_TOKEN_SECRET: str(),
+    JWT_REFRESH_TOKEN_SECRET: str()
 });
 
 export default env;

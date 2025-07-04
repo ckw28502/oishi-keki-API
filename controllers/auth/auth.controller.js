@@ -17,9 +17,7 @@ const login = async (req, res, next) => {
         // Import the authService to handle authentication logic
         const result = await authService.login(username, password);
 
-        res.status(200).json({
-            token: result
-        });
+        res.status(200).json(result);
 
     } catch (error) {
         next(error);

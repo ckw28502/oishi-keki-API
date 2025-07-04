@@ -70,7 +70,9 @@
   },
   "scripts": {
     "start": "dotenvx run -- nodemon index.js",
-    "test": "dotenvx run -- vitest --coverage"
+    "test:unit": "dotenvx run -- vitest --coverage",
+    "test:bdd": " dotenvx run -- cucumber-js",
+    "test": "npm run test:unit && npm run test:bdd"
   },
   "repository": {
     "type": "git",
@@ -85,8 +87,10 @@
   },
   "homepage": "https://github.com/ckw28502/oishi-keki-API#readme",
   "devDependencies": {
+    "@cucumber/cucumber": "^11.3.0",
     "@vitest/coverage-v8": "^3.2.4",
     "nodemon": "^3.1.10",
+    "supertest": "^7.1.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "vitest": "^3.2.4"

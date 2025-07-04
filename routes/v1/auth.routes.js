@@ -1,5 +1,5 @@
 import express from 'express';
-import authController from '../../controllers/auth/auth.controller.js';
+import authController from '../../controllers/auth.controller.js';
 
 // Import the authentication routes for API version 1
 const apiV1AuthRouter = express.Router();

@@ -1,6 +1,7 @@
-export class InvalidCredentialsError extends Error {
+import { BadRequestError } from "./badRequest.error.js";
+
+export class InvalidCredentialsError extends BadRequestError {
     constructor(message = "Nama pengguna atau kata sandi salah") {
         super(message);
-        this.statusCode = 400; // HTTP status code for Bad Request
     }
 }

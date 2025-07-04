@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import authService from "../../../services/auth/auth.service.js";
-import { InvalidCredentialsError } from "../../../errors/400/invalidCredentials.error.js";
-import { verifyToken } from "../../../utils/jwt.js"; 
-import { ROLES } from "../../../constants/role.js";
-import env from "../../../config/env.js";
+import authService from "../../services/auth.service.js";
+import { InvalidCredentialsError } from "../../errors/400/invalidCredentials.error.js";
+import { verifyToken } from "../../utils/jwt.js"; 
+import { ROLES } from "../../constants/role.js";
+import env from "../../config/env.js";
 
 describe('Authentication service', () => { 
     describe('Login', () => { 

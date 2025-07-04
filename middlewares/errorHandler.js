@@ -1,3 +1,6 @@
+import { ZodError } from 'zod';
+import { BadRequestError } from '../errors/400/badRequest.error.js';
+
 /**
  * Error handling middleware for Express.js applications.
  * This middleware captures errors thrown in the application and sends a structured JSON response.
@@ -8,15 +11,28 @@
  * @param {import('express').Response} res - The Express response object.
  * @param {import('express').NextFunction} next - The next middleware function in the stack.
  */
+
 const errorHandler = (err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
+    let error;
+    if (err.name === 'ZodError') {
+        error = handleZodError(err);
+    } else {
+        error = err;
+    }
+
+    const statusCode = error.statusCode || 500;
 
     res.status(statusCode).json({
-        error: {
-            status: statusCode,
-            message: err.message || 'Internal Server Error',
-        }
+        error: error.message || 'Internal Server Error',
     });
-};
+}; 
+
+const handleZodError = (err) => {
+    const messages = err.issues
+        .map(issue => issue.message)
+        .join(',');
+        
+    return new BadRequestError(messages);
+} 
 
 export default errorHandler;

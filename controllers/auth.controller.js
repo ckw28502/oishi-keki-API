@@ -1,5 +1,5 @@
-import { loginSchema } from "../../validations/auth.validation.js";
-import authService from "../../services/auth/auth.service.js";
+import { loginSchema } from "../validations/auth.validation.js";
+import authService from "../services/auth.service.js";
 
 /**
  * Controller for handling user login requests.

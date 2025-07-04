@@ -29,7 +29,15 @@ const env = envalid.cleanEnv(process.env, {
     // Cloudinary configuration for media storage (image uploads)
     CLOUDINARY_CLOUD_NAME: str(), // Cloudinary cloud name
     CLOUDINARY_API_KEY: str(),    // Cloudinary API key
-    CLOUDINARY_API_SECRET: str()  // Cloudinary API secret
+    CLOUDINARY_API_SECRET: str(),  // Cloudinary API secret
+
+    // Owner credentials for admin access
+    OWNER_USER: str(),
+    OWNER_PASSWORD: str(),
+
+    // Employee credentials for staff access
+    EMPLOYEE_USER: str(),
+    EMPLOYEE_PASSWORD: str()
 });
 
 export default env;

@@ -8,7 +8,7 @@ import env from './env.js';
  * 
  * @param {import('express').Application} app - The Express application instance
  */
-export function setupSwagger(app) {
+export const setupSwagger = (app) => {
   // Swagger configuration options
   const swaggerOptions = {
     definition: {
@@ -25,7 +25,7 @@ export function setupSwagger(app) {
       ],
     },
     // Path to files containing OpenAPI annotations (update to your routes path)
-    apis: ["./routes/*.js"],
+    apis: ["./routes/**/*.routes.js"],
   };
 
   // Generate Swagger specification using swagger-jsdoc

@@ -2,6 +2,8 @@ import express from 'express';
 import { setupMiddlewares } from './config/middleware.js';
 import { setupSwagger } from './config/Swagger.js';
 import env from './config/env.js';
+import apiRouter from './routes/api.js';
+import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
 
@@ -18,6 +20,12 @@ if (NODE_ENV === "dev") {
 
 // Use PORT from environment variables, default to 3000 if not specified
 const PORT = env.PORT;
+
+// Import the main API router
+app.use('/api', apiRouter);
+
+// Use the custom error handler middleware to handle errors globally
+app.use(errorHandler);
 
 // Start the Express server on the specified port
 app.listen(PORT, () => {

@@ -1,6 +1,6 @@
 import env from "../../config/env.js";
 import { ROLES } from "../../constants/role.js";
-import { createError } from "../../utils/errors.js";
+import { InvalidCredentialsError } from "../../errors/400/invalidCredentials.error.js";
 import { generateTokens } from "../../utils/jwt.js";
 
 // This file handles user authentication by checking credentials against predefined values.
@@ -30,7 +30,7 @@ const login = async (username, password) => {
 
     // If no matching credentials found, throw an error
     if (!user) {
-        throw createError(400, "Nama pengguna atau kata sandi salah"); 
+        throw new InvalidCredentialsError(); 
     }
 
     // Generate authentication tokens for the user based on their role

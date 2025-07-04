@@ -1,4 +1,3 @@
-import { ZodError } from 'zod';
 import { BadRequestError } from '../errors/400/badRequest.error.js';
 
 /**
@@ -27,12 +26,17 @@ const errorHandler = (err, req, res, next) => {
     });
 }; 
 
+/**
+ * Converts a Zod validation error into a custom `BadRequestError` with a readable message.
+ *
+ * @param {import('zod').ZodError} err - The Zod error object thrown during schema validation.
+ * @returns {BadRequestError} - A custom error containing concatenated error messages.
+ */
 const handleZodError = (err) => {
     const messages = err.issues
         .map(issue => issue.message)
-        .join(',');
-        
-    return new BadRequestError(messages);
-} 
+        .join(', ');
 
+    return new BadRequestError(messages);
+};
 export default errorHandler;

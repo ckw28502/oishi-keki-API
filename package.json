@@ -62,6 +62,8 @@
     "serve-static": "^1.13.2",
     "setprototypeof": "^1.1.0",
     "statuses": "^1.4.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "type-is": "^1.6.18",
     "unpipe": "^1.0.0",
     "utils-merge": "^1.0.1",
@@ -91,8 +93,6 @@
     "@vitest/coverage-v8": "^3.2.4",
     "nodemon": "^3.1.10",
     "supertest": "^7.1.1",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
     "vitest": "^3.2.4"
   }
 }

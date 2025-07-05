@@ -21,9 +21,19 @@ Given('the user has an invalid email or password', function () {
     this.password = 'invalidPassword';
 })
 
-Given('the user does not provide an email or password', function () {
+Given('the username does not exists and password does not exists', function () {
     this.username = '';
     this.password = '';
+});
+
+Given('the username exists and password does not exists', function () {
+    this.username = "owner";
+    this.password = '';
+});
+
+Given('the username does not exists and password exists', function () {
+    this.username = '';
+    this.password = 'owner'; 
 });
 
 When('the user attempts to log in', async function () {
@@ -135,6 +145,14 @@ Then('the respose should indicate that the credentials are invalid', function ()
     assert.strictEqual(this.response.body.error, new InvalidCredentialsError().message);
 });
 
-Then('the response should indicate that both email and password are required', function () {
-    assert.strictEqual(this.response.body.error, "Nama pengguna tidak boleh kosong!,Kata sandi tidak boleh kosong!");
+Then('the response should indicate that username does not exists and password does not exists', function () {
+    assert.strictEqual(this.response.body.error, "Nama pengguna tidak boleh kosong!, Kata sandi tidak boleh kosong!");
+});
+
+Then('the response should indicate that username exists and password does not exists', function () {
+    assert.strictEqual(this.response.body.error, "Kata sandi tidak boleh kosong!");
+});
+
+Then('the response should indicate that username does not exists and password exists', function () {
+    assert.strictEqual(this.response.body.error, "Nama pengguna tidak boleh kosong!");
 });

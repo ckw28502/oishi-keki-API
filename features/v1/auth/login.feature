@@ -17,7 +17,13 @@ Feature: User login
         And the respose should indicate that the credentials are invalid
     
     Scenario: Login with missing credentials
-        Given the user does not provide an email or password
+        Given the username <username> and password <password>
         When the user attempts to log in
         Then the user should receive an error response
-        And the response should indicate that both email and password are required
+        And the response should indicate that username <username> and password <password>
+
+        Examples:
+            | username        | password        |
+            | does not exists | does not exists |
+            | exists          | does not exists |
+            | does not exists | exists          |

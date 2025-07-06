@@ -1,5 +1,5 @@
 
-name: Main pipeline
+name: PR pipeline
 on:
   pull_request:
     branches: ["main"]

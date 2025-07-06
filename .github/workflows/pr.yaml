@@ -1,9 +1,11 @@
 name: PR pipeline
 on:
   push:
-    branches: ["**"]
+    branches: ["main"]
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
-  test:
+  sonarqube:
     name: SonarQube
     runs-on: ubuntu-latest
     steps:
@@ -33,14 +35,13 @@ jobs:
           DOTENV_PRIVATE_KEY_TEST: ${{ secrets.DOTENV_PRIVATE_KEY_TEST }}
 
       - name: SonarQube Scan
-        if: ${{ github.event_name == 'pull_request' }}
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  check-version:
-    if: ${{ github.event_name == 'pull_request' }}
+  check-version-bump:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

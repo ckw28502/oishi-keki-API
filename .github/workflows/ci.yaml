@@ -22,4 +22,6 @@ jobs:
         run: npm ci
 
       - name: Run unit tests
-        run: npm run test:unit:ci
+        run: npm run test:unit
+        env:
+          DOTENV_PRIVATE_KEY_CI: ${secrets.DOTENV_PRIVATE_KEY_CI}

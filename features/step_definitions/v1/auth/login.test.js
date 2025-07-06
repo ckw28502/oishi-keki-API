@@ -7,13 +7,13 @@ import assert from 'assert';
 import { InvalidCredentialsError } from '../../../../errors/400/invalidCredentials.error.js';
 
 Given('the user has a valid email and password for owner', function () {
-    this.username = 'owner';
-    this.password = 'owner';
+    this.username = 'testowner';
+    this.password = 'ownerpass';
 });
 
 Given('the user has a valid email and password for employee', function () {
-    this.username = 'employee';
-    this.password = 'employee';
+    this.username = 'testemployee';
+    this.password = 'employeepass';
 });
 
 Given('the user has an invalid email or password', function () {
@@ -27,13 +27,13 @@ Given('the username does not exists and password does not exists', function () {
 });
 
 Given('the username exists and password does not exists', function () {
-    this.username = "owner";
+    this.username = "testowner";
     this.password = '';
 });
 
 Given('the username does not exists and password exists', function () {
     this.username = '';
-    this.password = 'owner'; 
+    this.password = 'ownerpass'; 
 });
 
 When('the user attempts to log in', async function () {

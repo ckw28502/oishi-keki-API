@@ -9,6 +9,9 @@ export default defineConfig({
             'services/**/*.js',
             'utils/jwt.js',
         ]
-    }
+    },
+    include: [
+      "tests/**/*.js"
+    ]
   },
 });

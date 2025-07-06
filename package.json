@@ -71,9 +71,9 @@
     "zod": "^3.25.71"
   },
   "scripts": {
-    "start": "dotenvx run -- nodemon index.js",
-    "test:unit": "dotenvx run -- vitest --coverage",
-    "test:bdd": " dotenvx run -- cucumber-js",
+    "start:dev": "dotenvx run -f .env.dev -fk .env.dev.keys -- nodemon index.js",
+    "test:unit": "dotenvx run -f .env.test -fk .env.test.keys -- vitest --coverage",
+    "test:bdd": " dotenvx run -f .env.test -fk .env.test.keys -- cucumber-js",
     "test": "npm run test:unit && npm run test:bdd"
   },
   "repository": {

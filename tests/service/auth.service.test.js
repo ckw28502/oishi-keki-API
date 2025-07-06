@@ -29,13 +29,13 @@ describe('Authentication service', () => {
 
         it.each([
             {
-                "username": "owner",
-                "password": "owner",
+                "username": "testowner",
+                "password": "ownerpass",
                 "role": ROLES.OWNER
             },
             {
-                "username": "employee",
-                "password": "employee",
+                "username": "testemployee",
+                "password": "employeepass",
                 "role": ROLES.EMPLOYEE
             }
         ])('Should return valid access token and refresh token for $username', async ({ username, password, role }) => {

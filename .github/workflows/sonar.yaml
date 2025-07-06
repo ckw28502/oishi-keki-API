@@ -32,7 +32,7 @@ jobs:
           DOTENV_PRIVATE_KEY_TEST: ${{ secrets.DOTENV_PRIVATE_KEY_TEST }}
 
       - name: show dir
-        run: ls -la
+        run: ls -R coverage
 
       - uses: actions/checkout@v4
         with:

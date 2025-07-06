@@ -26,7 +26,7 @@ export const setupSwagger = (app) => {
       ],
     },
     // Path to files containing OpenAPI annotations (update to your routes path)
-    apis: ["./routes/**/*.routes.js"],
+    apis: ["./src/routes/**/*.routes.js"],
   };
 
   // Generate Swagger specification using swagger-jsdoc

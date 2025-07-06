@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  sonarqube:
+  sonar:
     name: SonarQube
     runs-on: ubuntu-latest
     steps:
@@ -39,9 +39,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  check-version-bump:
+  check-version:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' }}
+    needs: sonar
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

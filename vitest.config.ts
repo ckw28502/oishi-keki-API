@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     coverage: {
         provider: 'v8',
-        reporter: ['text', 'json', 'html'],
+        reporter: ['lcov', 'html'],
         include: [
             'services/**/*.js',
             'utils/jwt.js',

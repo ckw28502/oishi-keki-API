@@ -5,44 +5,53 @@ import jwt from 'jsonwebtoken';
 import { ROLES } from '../../../../constants/role.js';
 import assert from 'assert';
 import { InvalidCredentialsError } from '../../../../errors/400/invalidCredentials.error.js';
+import { randomBytes } from 'crypto';
+
+const generateRandomString = () => {
+    return randomBytes(32).toString("hex");
+}
 
 Given('the user has a valid email and password for owner', function () {
-    this.username = 'testowner';
-    this.password = 'ownerpass';
+    this.reqBody = {
+        username: process.env.OWNER_USER,
+        password: process.env.OWNER_PASSWORD
+    };
 });
 
 Given('the user has a valid email and password for employee', function () {
-    this.username = 'testemployee';
-    this.password = 'employeepass';
+    this.reqBody = {
+        username: process.env.EMPLOYEE_USER,
+        password: process.env.EMPLOYEE_PASSWORD
+    };
 });
 
 Given('the user has an invalid email or password', function () {
-    this.username = 'invalidUser';
-    this.password = 'invalidPassword';
+    this.reqBody = {
+        username: generateRandomString(),
+        password: generateRandomString()
+    };
 })
 
 Given('the username does not exists and password does not exists', function () {
-    this.username = '';
-    this.password = '';
+    this.reqBody = {};
 });
 
 Given('the username exists and password does not exists', function () {
-    this.username = "testowner";
-    this.password = '';
+    this.reqBody = {
+        username: process.env.OWNER_USER
+    };
 });
 
 Given('the username does not exists and password exists', function () {
-    this.username = '';
-    this.password = 'ownerpass'; 
+    this.reqBody = {
+        password: process.env.OWNER_PASSWORD
+    };
 });
 
 When('the user attempts to log in', async function () {
     this.response = await request(app)
         .post('/api/v1/auth/login')
-        .send({
-            username: this.username,
-            password: this.password
-        })
+        .send(this.reqBody)
         .set('Accept', 'application/json');
 });
 

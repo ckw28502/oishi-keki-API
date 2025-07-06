@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { ROLES } from "../../constants/role.js";
 import { generateTokens, verifyToken } from "../../utils/jwt.js";
 import jwt from 'jsonwebtoken';

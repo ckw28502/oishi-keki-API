@@ -4,23 +4,28 @@ import { InvalidCredentialsError } from "../../errors/400/invalidCredentials.err
 import { verifyToken } from "../../utils/jwt.js"; 
 import { ROLES } from "../../constants/role.js";
 import env from "../../config/env.js";
+import { randomBytes } from 'crypto';
 
 describe('Authentication service', () => { 
     describe('Login', () => { 
+        const generateRandomString = () => {
+            return randomBytes(32).toString("hex");
+        }
+
         it.each([
             {
-                username: "invalidUser",
-                password: "invalidPassword",
+                username: generateRandomString(),
+                password: generateRandomString(),
                 testCase: "invalid username and password"
             },
             {
-                username: "invalidUser",
-                password: "owner",
+                username: generateRandomString(),
+                password: process.env.OWNER_PASSWORD,
                 testCase: "invalid username and valid password"
             },
             {
-                username: "owner",
-                password: "invalidPassword",
+                username: process.env.OWNER_USER,
+                password: generateRandomString(),
                 testCase: "valid username and invalid password"
             }
         ])('Should throw InvalidCredentialsError for $testCase', async ({ username, password }) => {
@@ -29,13 +34,13 @@ describe('Authentication service', () => {
 
         it.each([
             {
-                "username": "testowner",
-                "password": "ownerpass",
+                "username": process.env.OWNER_USER,
+                "password": process.env.OWNER_PASSWORD,
                 "role": ROLES.OWNER
             },
             {
-                "username": "testemployee",
-                "password": "employeepass",
+                "username": process.env.EMPLOYEE_USER,
+                "password": process.env.EMPLOYEE_PASSWORD,
                 "role": ROLES.EMPLOYEE
             }
         ])('Should return valid access token and refresh token for $username', async ({ username, password, role }) => {

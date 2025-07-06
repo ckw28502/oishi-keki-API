@@ -38,7 +38,7 @@ export const generateTokens = (role) => {
 export const verifyToken = (token, secret) => {
     try {
         return jwt.verify(token, secret);
-    } catch (error) {
+    } catch {
         return null;
     }
 }

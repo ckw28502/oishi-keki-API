@@ -1,7 +1,7 @@
 name: PR pipeline
 on:
-  push: 
-    branches:["**"]
+  push:
+    branches: ["**"]
 jobs:
   test:
     name: SonarQube

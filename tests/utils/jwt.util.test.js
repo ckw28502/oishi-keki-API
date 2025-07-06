@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { ROLES } from "../../constants/role.js";
-import { generateTokens, verifyToken } from "../../utils/jwt.js";
+import { ROLES } from "../../src/constants/role.js";
+import { generateTokens, verifyToken } from "../../src/utils/jwt.js";
 import jwt from 'jsonwebtoken';
-import env from "../../config/env.js";
+import env from "../../src/config/env.js";
 import crypto from 'crypto';
 
 describe('JWT Utility', () => {

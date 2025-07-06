@@ -1,9 +1,9 @@
 import express from 'express';
-import { setupMiddlewares } from './config/middleware.js';
-import { setupSwagger } from './config/swagger.js';
-import env from './config/env.js';
-import apiRouter from './routes/api.js';
-import errorHandler from './middlewares/errorHandler.js';
+import { setupMiddlewares } from './src/config/middleware.js';
+import { setupSwagger } from './src/config/swagger.js';
+import env from './src/config/env.js';
+import apiRouter from './src/routes/api.js';
+import errorHandler from './src/middlewares/errorHandler.js';
 
 const app = express();
 

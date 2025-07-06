@@ -1,6 +1,6 @@
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
-import packageInfo from '../package.json' with { type: 'json' };
+import packageInfo from '../../package.json' with { type: 'json' };
 
 
 /**

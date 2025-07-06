@@ -2,9 +2,9 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import request from 'supertest';
 import app from '../../../../index.js';
 import jwt from 'jsonwebtoken';
-import { ROLES } from '../../../../constants/role.js';
+import { ROLES } from '../../../../src/constants/role.js';
 import assert from 'assert';
-import { InvalidCredentialsError } from '../../../../errors/400/invalidCredentials.error.js';
+import { InvalidCredentialsError } from '../../../../src/errors/400/invalidCredentials.error.js';
 import { randomBytes } from 'crypto';
 
 const generateRandomString = () => {

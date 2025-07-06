@@ -1,11 +1,11 @@
-name: PR pipeline
+name: oishi_keki pipeline
 on:
   push:
-    branches: ["main"]
+    branches: ["**"]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: ["**"]
 jobs:
-  sonar:
+  test:
     name: SonarQube
     runs-on: ubuntu-latest
     steps:

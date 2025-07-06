@@ -1,6 +1,6 @@
-import cors from 'cors';
 import helmet from 'helmet';
 import express from 'express';
+
 
 /**
  * Setup middleware for the Express app.
@@ -10,9 +10,6 @@ import express from 'express';
  * @param {import('express').Application} app - The Express application instance
  */
 export const setupMiddlewares = (app) => {
-  // Enable Cross-Origin Resource Sharing (CORS) for handling requests from different domains
-  app.use(cors());
-
   // Parse incoming request bodies in JSON format
   app.use(express.json());
 

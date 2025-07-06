@@ -16,9 +16,6 @@ const env = envalid.cleanEnv(process.env, {
     // NODE_ENV: Application environment mode, must be one of 'dev', 'test', or 'prod'
     NODE_ENV: str({ choices: ['dev', 'test', 'prod'] }),
 
-    // APP_VERSION: Version of the application, useful for tracking deployments
-    APP_VERSION: str(),
-
     // PostgreSQL database connection details
     POSTGRES_USER: str(),       // Database username
     POSTGRES_PASSWORD: str(),   // Database password

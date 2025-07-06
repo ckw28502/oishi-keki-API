@@ -1,6 +1,7 @@
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
-import env from './env.js';
+import packageInfo from '../package.json' with { type: 'json' };
+
 
 /**
  * Setup Swagger UI for API documentation.
@@ -15,7 +16,7 @@ export const setupSwagger = (app) => {
       openapi: "3.0.0", // OpenAPI specification version
       info: {
         title: "Oishi Keki API",  // API title
-        version: env.APP_VERSION, // API version
+        version: packageInfo.version, // API version
         description: "API documentation for the Oishi Keki backend", // Description
       },
       servers: [

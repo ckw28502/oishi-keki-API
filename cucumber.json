@@ -1,7 +1,5 @@
 {
     "default": {
-        "formatOptions": {
-            "snippetInterface": "synchronous"
-        }
+        "forceExit": true
     }
 }

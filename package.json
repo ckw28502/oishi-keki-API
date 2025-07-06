@@ -1,6 +1,6 @@
 {
   "name": "oishi-keki-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -73,7 +73,6 @@
   "scripts": {
     "start": "dotenvx run -f .env.dev -fk .env.dev.keys -- nodemon index.js",
     "test:unit": "dotenvx run -f .env.test -fk .env.test.keys -- vitest --coverage",
-    "test:unit:ci": "dotenvx run -f .env.test -- vitest --coverage",
     "test:bdd": " dotenvx run -f .env.test -fk .env.test.keys -- cucumber-js"
   },
   "repository": {

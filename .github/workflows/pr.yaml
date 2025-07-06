@@ -1,7 +1,7 @@
 name: PR pipeline
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push: 
+    branches:["**"]
 jobs:
   test:
     name: SonarQube

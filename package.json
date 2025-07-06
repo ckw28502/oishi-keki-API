@@ -73,8 +73,8 @@
   "scripts": {
     "start": "dotenvx run -f .env.dev -fk .env.dev.keys -- nodemon index.js",
     "test:unit": "dotenvx run -f .env.test -fk .env.test.keys -- vitest --coverage",
-    "test:bdd": " dotenvx run -f .env.test -fk .env.test.keys -- cucumber-js",
-    "test": "npm run test:unit && npm run test:bdd"
+    "test:unit:ci": "dotenvx run -f .env.test -- vitest --coverage",
+    "test:bdd": " dotenvx run -f .env.test -fk .env.test.keys -- cucumber-js"
   },
   "repository": {
     "type": "git",

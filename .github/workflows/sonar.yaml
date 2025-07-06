@@ -21,7 +21,15 @@ jobs:
       - name: Run unit tests
         run: npm run test:unit
         env:
-          DOTENV_PRIVATE_KEY_TEST: ${{ secrets.DOTENV_PRIVATE_KEY_TEST }
+          DOTENV_PRIVATE_KEY_TEST: ${{ secrets.DOTENV_PRIVATE_KEY_TEST }}
+
+      - name: Install c8
+        run: npm install c8
+
+      - name: Run BDD test
+        run: npx c8 -r lcov npm run test:bdd
+        env:
+          DOTENV_PRIVATE_KEY_TEST: ${{ secrets.DOTENV_PRIVATE_KEY_TEST }}
 
       - uses: actions/checkout@v4
         with:

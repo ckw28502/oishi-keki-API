@@ -3,6 +3,9 @@ name: Develop pipeline
 on:
   push:
     branches: ["develop"]
+  pull_request:
+    branches:
+    - "!**"  
 
 jobs:
   

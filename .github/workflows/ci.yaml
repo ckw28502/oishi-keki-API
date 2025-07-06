@@ -2,6 +2,8 @@ name: oishi_keki pipeline
 on:
   push:
     branches: ["**"]
+  pull_request:
+    branches: ["main"]
 jobs:
   test:
     name: test

@@ -32,9 +32,6 @@ jobs:
         env:
           DOTENV_PRIVATE_KEY_TEST: ${{ secrets.DOTENV_PRIVATE_KEY_TEST }}
 
-      - name: show dir
-        run: ls -R coverage
-
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:

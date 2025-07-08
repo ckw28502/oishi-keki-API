@@ -22,12 +22,7 @@ const env = envalid.cleanEnv(process.env, {
     POSTGRES_DB: str(),         // Database name
     POSTGRES_HOST: str(),       // Database host address
     POSTGRES_PORT: port({ default: 5432 }),  // Database port number (default: 5432)
-
-    // Cloudinary configuration for media storage (image uploads)
-    CLOUDINARY_CLOUD_NAME: str(), // Cloudinary cloud name
-    CLOUDINARY_API_KEY: str(),    // Cloudinary API key
-    CLOUDINARY_API_SECRET: str(),  // Cloudinary API secret
-
+    
     // Owner credentials for admin access
     OWNER_USER: str(),
     OWNER_PASSWORD: str(),

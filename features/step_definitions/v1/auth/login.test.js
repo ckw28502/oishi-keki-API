@@ -144,24 +144,24 @@ Then('the user should receive an error response', function () {
     assert.deepStrictEqual(this.response.status, 400);
 
     // Check if the response body contains an error message
-    assert.ok(this.response.body.error);
+    assert.ok(this.response.body.message);
 
     
 });
 
 Then('the respose should indicate that the credentials are invalid', function () {
     // Check if the error message is 'Invalid credentials'
-    assert.strictEqual(this.response.body.error, new InvalidCredentialsError().message);
+    assert.strictEqual(this.response.body.message, new InvalidCredentialsError().message);
 });
 
 Then('the response should indicate that username does not exists and password does not exists', function () {
-    assert.strictEqual(this.response.body.error, "Nama pengguna tidak boleh kosong!, Kata sandi tidak boleh kosong!");
+    assert.strictEqual(this.response.body.message, "Nama pengguna tidak boleh kosong!, Kata sandi tidak boleh kosong!");
 });
 
 Then('the response should indicate that username exists and password does not exists', function () {
-    assert.strictEqual(this.response.body.error, "Kata sandi tidak boleh kosong!");
+    assert.strictEqual(this.response.body.message, "Kata sandi tidak boleh kosong!");
 });
 
 Then('the response should indicate that username does not exists and password exists', function () {
-    assert.strictEqual(this.response.body.error, "Nama pengguna tidak boleh kosong!");
+    assert.strictEqual(this.response.body.message, "Nama pengguna tidak boleh kosong!");
 });

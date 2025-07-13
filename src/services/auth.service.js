@@ -26,7 +26,7 @@ const credentials = [
  */
 const login = async (username, password) => {
     // Check if the provided username and password match any of the credentials
-    const user = credentials.find(cred => cred.username === username && cred.password === password);
+    const user = credentials.find(cred => cred.username.toLowerCase() === username.toLowerCase() && cred.password === password);
 
     // If no matching credentials found, throw an error
     if (!user) {

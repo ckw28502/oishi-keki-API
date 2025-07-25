@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import authService from "../../src/services/auth.service.js";
 import { InvalidCredentialsError } from "../../src/errors/400/invalidCredentials.error.js";
 import { verifyToken } from "../../src/utils/jwt.js"; 
-import { ROLES } from "../../src/constants/role.js";
+import { Roles } from "../../src/constants/role.js";
 import env from "../../src/config/env.js";
 import { randomBytes } from 'crypto';
 
@@ -36,12 +36,12 @@ describe('Authentication service', () => {
             {
                 "username": process.env.OWNER_USER,
                 "password": process.env.OWNER_PASSWORD,
-                "role": ROLES.OWNER
+                "role": Roles.Owner
             },
             {
                 "username": process.env.EMPLOYEE_USER,
                 "password": process.env.EMPLOYEE_PASSWORD,
-                "role": ROLES.EMPLOYEE
+                "role": Roles.Employee
             }
         ])('Should return valid access token and refresh token for $username', async ({ username, password, role }) => {
             // Act

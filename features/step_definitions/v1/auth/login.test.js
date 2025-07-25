@@ -2,7 +2,7 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import request from 'supertest';
 import app from '../../../../index.js';
 import jwt from 'jsonwebtoken';
-import { ROLES } from '../../../../src/constants/role.js';
+import { Roles } from '../../../../src/constants/role.js';
 import assert from 'assert';
 import { InvalidCredentialsError } from '../../../../src/errors/400/invalidCredentials.error.js';
 import { randomBytes } from 'crypto';
@@ -79,7 +79,7 @@ Then('the response should contain a JWT token with owner permissions', function 
 
     const accessTokenRole = accessTokenPayload.role;
     // Check if the role in the access token payload is 'owner'
-    assert.strictEqual(accessTokenRole, ROLES.OWNER);
+    assert.strictEqual(accessTokenRole, Roles.Owner);
 
     // Check if the refreshToken is present in the response body
     assert.ok(responseBody.refreshToken);
@@ -95,7 +95,7 @@ Then('the response should contain a JWT token with owner permissions', function 
 
     const refreshTokenRole = refreshTokenPayload.role;
     // Check if the role in the refresh token payload is 'owner'
-    assert.strictEqual(refreshTokenRole, ROLES.OWNER);
+    assert.strictEqual(refreshTokenRole, Roles.Owner);
 
 });
 
@@ -119,7 +119,7 @@ Then('the response should contain a JWT token with employee permissions', functi
 
     const accessTokenRole = accessTokenPayload.role;
     // Check if the role in the access token payload is 'employee'
-    assert.strictEqual(accessTokenRole, ROLES.EMPLOYEE);
+    assert.strictEqual(accessTokenRole, Roles.Employee);
 
     // Check if the refreshToken is present in the response body
     assert.ok(responseBody.refreshToken);
@@ -135,7 +135,7 @@ Then('the response should contain a JWT token with employee permissions', functi
 
     const refreshTokenRole = refreshTokenPayload.role;
     // Check if the role in the refresh token payload is 'employee'
-    assert.strictEqual(refreshTokenRole, ROLES.EMPLOYEE);
+    assert.strictEqual(refreshTokenRole, Roles.Employee);
 
 });
 

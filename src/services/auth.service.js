@@ -1,5 +1,5 @@
 import env from "../config/env.js";
-import { ROLES } from "../constants/role.js";
+import { Roles } from "../constants/role.js";
 import { InvalidCredentialsError } from "../errors/400/invalidCredentials.error.js";
 import { generateTokens } from "../utils/jwt.js";
 
@@ -8,12 +8,12 @@ const credentials = [
     {
         username: env.OWNER_USER,
         password: env.OWNER_PASSWORD,
-        role: ROLES.OWNER
+        role: Roles.Owner
     },
     {
         username: env.EMPLOYEE_USER,
         password: env.EMPLOYEE_PASSWORD,
-        role: ROLES.EMPLOYEE
+        role: Roles.Employee
     },
 ];
 

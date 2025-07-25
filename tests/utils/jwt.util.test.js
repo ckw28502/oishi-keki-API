@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { ROLES } from "../../src/constants/role.js";
+import { Roles } from "../../src/constants/role.js";
 import { generateTokens, verifyToken } from "../../src/utils/jwt.js";
 import jwt from 'jsonwebtoken';
 import env from "../../src/config/env.js";
 import crypto from 'crypto';
 
 describe('JWT Utility', () => {
-    const role = ROLES.OWNER;
+    const role = Roles.Owner;
 
     describe('generateTokens', () => {
         it('should generate valid access and refresh tokens for owner role', () => {

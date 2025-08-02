@@ -50,7 +50,7 @@ Given('the username does not exists and password exists', function () {
 
 When('the user attempts to log in', async function () {
     this.response = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/api/v1/auths/login')
         .send(this.reqBody)
         .set('Accept', 'application/json');
 });

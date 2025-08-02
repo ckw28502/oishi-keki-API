@@ -17,7 +17,8 @@ const credentials = [
     },
 ];
 
-/** Authenticates a user based on username and password.
+/** 
+ * Authenticates a user based on username and password.
  * 
  * @param {string} username - The username of the user.
  * @param {string} password - The password of the user.

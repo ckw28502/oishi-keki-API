@@ -6,10 +6,11 @@ const apiV1AuthRouter = express.Router();
 
 /**
  * @swagger
- * /api/v1/auth/login:
+ * /api/v1/auths/login:
  *   post:
  *     summary: Login for owner or employee
- *     tags: [V1 Auth]
+ *     tags:
+ *      - Authentication
  *     requestBody:
  *       required: true
  *       content:
@@ -22,8 +23,10 @@ const apiV1AuthRouter = express.Router();
  *             properties:
  *               username:
  *                 type: string
+ *                 example: owner   
  *               password:
  *                 type: string
+ *                 example: owner
  *     responses:
  *       200:
  *         description: Login successful, returns a token

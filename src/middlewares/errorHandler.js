@@ -3,7 +3,6 @@ import { BadRequestError } from '../errors/400/badRequest.error.js';
 /**
  * Error handling middleware for Express.js applications.
  * This middleware captures errors thrown in the application and sends a structured JSON response.
- * It also logs the error to the console for debugging purposes.
  *
  * @param {Error} err - The error object thrown in the application.
  * @param {import('express').Request} req - The Express request object.
@@ -13,10 +12,18 @@ import { BadRequestError } from '../errors/400/badRequest.error.js';
 
 const errorHandler = (err, req, res, next) => {
     let error;
-    if (err.name === 'ZodError') {
-        error = handleZodError(err);
-    } else {
-        error = err;
+
+    switch (err.name) {
+        case 'ZodError':
+            error = handleZodError(err);
+            break;
+        
+        case "SequelizeUniqueConstraintError":
+            error = handleSequelizeUniqueConstraintError(err);
+            break;
+
+        default:
+            error = err;
     }
 
     const statusCode = error.statusCode || 500;
@@ -39,4 +46,21 @@ const handleZodError = (err) => {
 
     return new BadRequestError(messages);
 };
+
+/**
+ * Handles Sequelize Unique Constraint errors by extracting and combining
+ * all error messages into a single BadRequestError instance.
+ *
+ * @param {import('sequelize').UniqueConstraintError} err - The Sequelize Unique Constraint error object.
+ * @returns {BadRequestError} A new BadRequestError containing combined error messages.
+ */
+const handleSequelizeUniqueConstraintError = (err) => {
+    const messages = err.errors
+        .map(error => error.message)
+        .join(', ');
+
+    return new BadRequestError(messages);
+}
+
+
 export default errorHandler;

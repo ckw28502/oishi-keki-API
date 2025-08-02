@@ -3,17 +3,24 @@ import sequelize from "../config/db.js";
 
 // Define the Cake model using Sequelize ORM
 const Cake = sequelize.define("Cake", {
-    // "name" field stores the name of the cake
-    // STRING type, required (cannot be null)
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false
+    // "id" field is the primary key for the Cake model
+    // UUID type, automatically generated with a default value of UUIDV4
+    // Cannot be null and serves as the primary key for the table
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        primaryKey: true
     },
-    // "imaeUrl" field stores the image URL or path of the cake
-    // STRING type, required (cannot be null)
-    imageUrl: {
-        type: DataTypes.STRING,
-        allowNull: false
+    // "name" field stores the name of the cake
+    // CITEXT type for case-insensitive uniqueness, required (cannot be null)
+    // Unique constraint ensures no two cakes can have the same name (case-insensitive)
+    name: {
+        type: DataTypes.CITEXT,
+        allowNull: false,
+        unique: {
+            msg: "Nama kue sudah terpakai!"
+        }
     },
     // "price" field stores the price of the cake
     // INTEGER type, required (cannot be null)
@@ -22,11 +29,10 @@ const Cake = sequelize.define("Cake", {
         allowNull: false
     }
 }, {
-    // Model name in singular form
-    tableName: "cake",
+    tableName: "cakes",
 
     // Automatically add and manage "createdAt" and "updatedAt" timestamp fields
     timestamps: true
 });
 
-export default Kue;
+export default Cake;

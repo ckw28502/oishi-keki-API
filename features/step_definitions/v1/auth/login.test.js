@@ -4,7 +4,7 @@ import app from '../../../../index.js';
 import jwt from 'jsonwebtoken';
 import { Roles } from '../../../../src/constants/role.js';
 import assert from 'assert';
-import { InvalidCredentialsError } from '../../../../src/errors/400/invalidCredentials.error.js';
+import InvalidCredentialsError from '../../../../src/errors/400/invalidCredentials.error.js';
 import { randomBytes } from 'crypto';
 
 const generateRandomString = () => {

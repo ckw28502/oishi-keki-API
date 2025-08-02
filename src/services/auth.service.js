@@ -1,6 +1,6 @@
 import env from "../config/env.js";
 import { Roles } from "../constants/role.js";
-import { InvalidCredentialsError } from "../errors/400/invalidCredentials.error.js";
+import InvalidCredentialsError from "../errors/400/invalidCredentials.error.js";
 import { generateTokens } from "../utils/jwt.js";
 
 // This file handles user authentication by checking credentials against predefined values.

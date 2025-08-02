@@ -1,5 +1,4 @@
-import { BadRequestError } from '../errors/400/badRequest.error.js';
-
+import BadRequestError from '../errors/400/badRequest.error.js';
 /**
  * Error handling middleware for Express.js applications.
  * This middleware captures errors thrown in the application and sends a structured JSON response.

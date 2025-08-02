@@ -1,4 +1,4 @@
-import { BadRequestError } from "./badRequest.error.js";
+import BadRequestError from "./badRequest.error.js";
 
 /**
  * Custom error to represent invalid login credentials.

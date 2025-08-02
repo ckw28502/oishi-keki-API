@@ -75,8 +75,12 @@
     "start": "dotenvx run -f .env.dev -fk .env.dev.keys -- nodemon index.js",
     "test:unit": "dotenvx run -f .env.test -fk .env.test.keys -- vitest --coverage",
     "test:bdd": " dotenvx run -f .env.test -fk .env.test.keys -- cucumber-js",
-    "migrate:dev:up": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:migrate --config config/config.cjs",
-    "migrate:dev:down": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:migrate:undo --config config/config.cjs"
+    "migrate:dev:up": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
+    "migrate:dev:down": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:migrate:undo --config config/sequelize.cjs",
+    "migrate:test:up": "dotenvx run -f .env.test -fk .env.test.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
+    "migrate:test:down": "dotenvx run -f .env.test -fk .env.test.keys -- sequelize-cli db:migrate:undo --config config/sequelize.cjs",
+    "migrate:prod:up": "dotenvx run -f .env.prod -fk .env.prod.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
+    "migrate:prod:down": "dotenvx run -f .env.prod -fk .env.prod.keys -- sequelize-cli db:migrate:undo --config config/sequelize.cjs"
   },
   "repository": {
     "type": "git",

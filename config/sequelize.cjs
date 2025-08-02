@@ -16,7 +16,7 @@ module.exports = {
     host: process.env.POSTGRES_HOST,
     dialect: "postgres"
   },
-  production: {
+  prod: {
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,

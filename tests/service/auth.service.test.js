@@ -8,10 +8,12 @@ import { randomBytes } from 'crypto';
 
 describe('Authentication service', () => { 
     describe('Login', () => { 
+        // Helper: Generate a random string for invalid credentials
         const generateRandomString = () => {
             return randomBytes(32).toString("hex");
-        }
+        };
 
+        // Test invalid login scenarios
         it.each([
             {
                 username: generateRandomString(),
@@ -29,55 +31,48 @@ describe('Authentication service', () => {
                 testCase: "valid username and invalid password"
             }
         ])('Should throw InvalidCredentialsError for $testCase', async ({ username, password }) => {
+            // Act + Assert: Login attempt should throw InvalidCredentialsError
             await expect(authService.login(username, password)).rejects.toThrow(InvalidCredentialsError);
         });
 
+        // Test valid login scenarios for both Owner and Employee
         it.each([
             {
-                "username": process.env.OWNER_USER,
-                "password": process.env.OWNER_PASSWORD,
-                "role": Roles.Owner
+                username: process.env.OWNER_USER,
+                password: process.env.OWNER_PASSWORD,
+                role: Roles.Owner
             },
             {
-                "username": process.env.EMPLOYEE_USER,
-                "password": process.env.EMPLOYEE_PASSWORD,
-                "role": Roles.Employee
+                username: process.env.EMPLOYEE_USER,
+                password: process.env.EMPLOYEE_PASSWORD,
+                role: Roles.Employee
             }
         ])('Should return valid access token and refresh token for $username', async ({ username, password, role }) => {
-            // Act
+            // Act: Attempt login with valid credentials
             const tokens = await authService.login(username, password);
 
-            // Assert
-            // Check if tokens are defined
+            // Assert: Token object should be defined
             expect(tokens).toBeDefined();
 
-            // Check the access token
+            // Assert: Verify access token
             expect(tokens.accessToken).toBeDefined();
+            expect(typeof tokens.accessToken).toBe("string");
 
-            const accessToken = tokens.accessToken;
-            expect(typeof accessToken).toBe("string");
-            
-            // Verify the access token payload
-            const accessTokenPayload = verifyToken(accessToken, env.JWT_ACCESS_TOKEN_SECRET);
+            // Assert: Verify access token payload
+            const accessTokenPayload = verifyToken(tokens.accessToken, env.JWT_ACCESS_TOKEN_SECRET);
             expect(accessTokenPayload).toBeDefined();
-            
             expect(accessTokenPayload.role).toBeDefined();
             expect(accessTokenPayload.role).toBe(role);
-            
 
-            // Check if tokens are strings
+            // Assert: Verify refresh token
             expect(tokens.refreshToken).toBeDefined();
+            expect(typeof tokens.refreshToken).toBe("string");
 
-            const refreshToken = tokens.refreshToken;
-            expect(typeof refreshToken).toBe("string");
-
-            // Verify the refresh token payload
-            const refreshTokenPayload = verifyToken(refreshToken, env.JWT_REFRESH_TOKEN_SECRET);
+            // Asserts: Verify refresh token payload
+            const refreshTokenPayload = verifyToken(tokens.refreshToken, env.JWT_REFRESH_TOKEN_SECRET);
             expect(refreshTokenPayload).toBeDefined();
-            
             expect(refreshTokenPayload.role).toBeDefined();
             expect(refreshTokenPayload.role).toBe(role);
-            
-        })
-     })    
-})
+        });
+    });    
+});

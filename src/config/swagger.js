@@ -19,6 +19,20 @@ export const setupSwagger = (app) => {
         version: packageInfo.version, // API version
         description: "API documentation for the Oishi Keki backend", // Description
       },
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       servers: [
         {
           url: "http://localhost:3000", // Base URL of the API server for development

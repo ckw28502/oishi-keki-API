@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { Roles } from "../../src/constants/role.js";
 import { generateTokens, verifyToken } from "../../src/utils/jwt.js";
-import jwt from 'jsonwebtoken';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import env from "../../src/config/env.js";
 import crypto from 'crypto';
+import ExpiredAccessTokenError from "../../src/errors/401/expiredAccessToken.error.js";
+import TokenNotExpiredError from "../../src/errors/400/tokenNotExpired.error.js";
 
 describe('JWT Utility', () => {
     const role = Roles.Owner;
@@ -48,12 +50,36 @@ describe('JWT Utility', () => {
         }   
 
         // Generate a valid token for testing and its generated secret
-        const generateTokenAndSecret = () => {  
+        const generateTokenAndSecret = (duration = "1m") => {  
             const jwtSecret = generateSecret();          
-            const token = jwt.sign({ role }, jwtSecret, { expiresIn: '1m' }); 
+            const token = jwt.sign({ role }, jwtSecret, { expiresIn: duration }); 
 
             return { token, jwtSecret };
         }
+
+        it('should throw exception for an invalid access token', () => {
+            // Arrange
+            const actualJwtSecret = generateSecret();
+            
+            // Generate a token with a different secret
+            let { token, jwtSecret } = generateTokenAndSecret();
+            while (actualJwtSecret === jwtSecret) {
+                ({ token, jwtSecret } = generateTokenAndSecret()); // Ensure the secret is different
+            }
+            
+            // Act + Assert
+            expect(() => verifyToken(token, actualJwtSecret)).toThrow(jwt.JsonWebTokenError);
+        });
+
+        it('should throw ExpiredAccessTokenError for expired token', async () => {
+            // Arrange
+            const { token, jwtSecret } = generateTokenAndSecret("1ms");
+            
+            await new Promise(resolve => setTimeout(resolve, 2));
+            
+            // Act + Assert
+            expect(() => verifyToken(token, jwtSecret)).toThrow(ExpiredAccessTokenError);
+        });
 
         it('should verify a valid access token', () => {
             // Arrange
@@ -67,21 +93,27 @@ describe('JWT Utility', () => {
             expect(payload.role).toBe(role);
         });
 
-        it('should return null for an invalid access token', () => {
+        it('should throw TokenNotExpiredError when the token is expected to be expired', () => {
             // Arrange
-            const jwtSecret = generateSecret();
+            const { token, jwtSecret } = generateTokenAndSecret();
+
+            // Act + Assert
+            expect(() => verifyToken(token, jwtSecret, true)).toThrow(TokenNotExpiredError);
+        });
+
+        it('should verify the expired token if the token is expected to be expired', async () => {
+            // Arrange
+            const { token, jwtSecret } = generateTokenAndSecret("1ms");
             
-            // Generate a token with a different secret
-            let { anotherToken, anotherJwtSecret } = generateTokenAndSecret();
-            while (anotherJwtSecret === jwtSecret) {
-                ({ anotherToken, anotherJwtSecret } = generateTokenAndSecret()); // Ensure the secret is different
-            }
+            await new Promise(resolve => setTimeout(resolve, 2));
             
             // Act
-            const payload = verifyToken(anotherToken, jwtSecret);
+            const payload = verifyToken(token, jwtSecret, true);
 
             // Assert
-            expect(payload).toBeNull();
+            expect(payload).toBeDefined();
+            expect(payload.role).toBe(role);
         });
+
     });
 })

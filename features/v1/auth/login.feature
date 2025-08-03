@@ -10,20 +10,21 @@ Feature: User login
             | role     |
             | owner    | 
             | employee |
+            
     Scenario: Failed login with invalid credentials
         Given the user has an invalid email or password
         When the user attempts to log in
-        Then the user should receive an error response
-        And the respose should indicate that the credentials are invalid
+        Then the response status should be 400
+        And the response message should be "Nama pengguna atau kata sandi salah"
     
     Scenario: Login with missing credentials
         Given the username <username> and password <password>
         When the user attempts to log in
-        Then the user should receive an error response
-        And the response should indicate that username <username> and password <password>
+        Then the response status should be 400
+        And the response message should be "<message>"
 
         Examples:
-            | username        | password        |
-            | does not exists | does not exists |
-            | exists          | does not exists |
-            | does not exists | exists          |
+            | username        | password        | message                                                           |
+            | does not exists | does not exists | Nama pengguna tidak boleh kosong!, Kata sandi tidak boleh kosong! |
+            | exists          | does not exists | Kata sandi tidak boleh kosong!                                 |
+            | does not exists | exists          | Nama pengguna tidak boleh kosong!                                    |

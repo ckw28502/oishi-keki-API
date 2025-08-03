@@ -1,11 +1,9 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import request from 'supertest';
-import app from '../../../../index.js';
 import jwt from 'jsonwebtoken';
 import { Roles } from '../../../../src/constants/role.js';
 import assert from 'assert';
-import InvalidCredentialsError from '../../../../src/errors/400/invalidCredentials.error.js';
 import { randomBytes } from 'crypto';
+import { Methods, sendRequest } from '../../common/helper.js';
 
 const generateRandomString = () => {
     return randomBytes(32).toString("hex");
@@ -49,10 +47,7 @@ Given('the username does not exists and password exists', function () {
 });
 
 When('the user attempts to log in', async function () {
-    this.response = await request(app)
-        .post('/api/v1/auths/login')
-        .send(this.reqBody)
-        .set('Accept', 'application/json');
+    this.response = await sendRequest("/api/v1/auths/login", Methods.Post, this.reqBody);
 });
 
 Then('the user should receive a success response', function () {
@@ -137,21 +132,6 @@ Then('the response should contain a JWT token with employee permissions', functi
     // Check if the role in the refresh token payload is 'employee'
     assert.strictEqual(refreshTokenRole, Roles.Employee);
 
-});
-
-Then('the user should receive an error response', function () {
-    // Check if the response status is 400
-    assert.deepStrictEqual(this.response.status, 400);
-
-    // Check if the response body contains an error message
-    assert.ok(this.response.body.message);
-
-    
-});
-
-Then('the respose should indicate that the credentials are invalid', function () {
-    // Check if the error message is 'Invalid credentials'
-    assert.strictEqual(this.response.body.message, new InvalidCredentialsError().message);
 });
 
 Then('the response should indicate that username does not exists and password does not exists', function () {

@@ -21,7 +21,7 @@ const generateToken = (role, secret, expiresIn) => {
  */
 const generateTokens = (role) => {
     // Generate access token with a short expiration time
-    const accessToken = generateToken(role, env.JWT_ACCESS_TOKEN_SECRET, '1m');
+    const accessToken = generateToken(role, env.JWT_ACCESS_TOKEN_SECRET, '15m');
 
     // Generate refresh token with a longer expiration time
     const refreshToken = generateToken(role, env.JWT_REFRESH_TOKEN_SECRET, '7d');

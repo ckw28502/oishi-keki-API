@@ -33,7 +33,7 @@ jobs:
       - name: Install c8
         run: npm install c8
 
-        - name: Install sequelize cli
+      - name: Install sequelize cli
         run: npm install --save-dev sequelize-cli
 
       - name: Migrate database

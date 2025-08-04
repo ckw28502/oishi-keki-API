@@ -36,12 +36,18 @@ Fitur: Menambahkan kue ke applikasi
             |              | 1     | Nama kue tidak boleh kosong!                                             |
             | Chiffon cake | 0     | Harga kue harus lebih besar dari 0 Rupiah!                               |
     
-    @kue
     Skenario: Gagal karena nama kue sudah terpakai
         Diketahui pengguna adalah pemilik
-        Dan nama kue "Chiffon cake"
+        Dan nama kue "Marble cake"
         Dan harga "100000"
-        Dan kue dengan nama "Chiffon cake" dan harga 100000 telah ditambahkan
+        Dan kue dengan nama "Marble cake" dan harga 100000 telah ditambahkan
         Ketika pengguna mengirimkan permintaan untuk membuat kue
         Maka status respons harus 400
         Dan pesan respons harus "Nama kue sudah terpakai!"
+
+    Skenario: Berhasil mnambahkan kue
+        Diketahui pengguna adalah pemilik
+        Dan nama kue "Blackforest cake"
+        Dan harga "100000"
+        Ketika pengguna mengirimkan permintaan untuk membuat kue
+        Maka status respons harus 201

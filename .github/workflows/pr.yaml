@@ -41,8 +41,6 @@ jobs:
 
       - name: Run BDD test
         run: npx c8 -r lcov npm run test:bdd
-        env:
-          DOTENV_PRIVATE_KEY_TEST: ${{ secrets.DOTENV_PRIVATE_KEY_TEST }}
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5

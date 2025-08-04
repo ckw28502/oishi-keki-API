@@ -7,6 +7,15 @@ jobs:
   sonarqube:
     name: SonarQube
     runs-on: ubuntu-latest
+    env:
+      DOTENV_PRIVATE_KEY_TEST: ${{ secrets.DOTENV_PRIVATE_KEY_TEST }}
+    services:
+      postgres:
+        image: postgres:17.5-alpine
+        env:
+          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,6 +34,12 @@ jobs:
 
       - name: Install c8
         run: npm install c8
+
+        - name: Install sequelize cli
+        run: npm install --save-dev sequelize-cli
+
+      - name: Migrate database
+        run: npm run migrate:test:up
 
       - name: Run BDD test
         run: npx c8 -r lcov npm run test:bdd

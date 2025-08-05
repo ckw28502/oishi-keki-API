@@ -24,4 +24,26 @@ const login = async (req, res, next) => {
     }
 };
 
-export default { login };
+/**
+ * Refreshes the access and refresh tokens using the payload extracted from the existing refresh token.
+ *
+ * @param {import('express').Request} req - Express request object (should contain `payload` from verified refresh token).
+ * @param {import('express').Response} res - Express response object.
+ * @param {import('express').NextFunction} next - Express next middleware function for error handling.
+ *
+ */
+const refreshTokens = async (req, res, next) => {
+    try {
+        // Call service to generate new tokens using payload from the current refresh token
+        const result = authService.refreshTokens(req.payload);
+
+        // Respond with 200 OK and the new tokens
+        res.status(200).json(result);
+    } catch (error) {
+        // Pass any error to the global error handler
+        next(error);
+    }
+};
+
+
+export default { login, refreshTokens };

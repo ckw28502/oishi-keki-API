@@ -35,9 +35,22 @@ const login = async (username, password) => {
     }
 
     // Generate authentication tokens for the user based on their role
-    const tokens = generateTokens(user.role);
-    
-    return tokens;
+    return generateTokens(user.role);
 };
 
-export default { login };
+
+/**
+ * Refreshes tokens by generating a new pair of tokens based on the user's role.
+ *
+ * @param {Object} payload - The payload object extracted from the verified refresh token.
+ * @param {string} payload.role - The user's role used to generate the new tokens.
+ *
+ * @returns {{ accessToken: string, refreshToken: string }} An object containing new access and refresh tokens.
+ */
+const refreshTokens = ({ role }) => {
+    // Generate a new access and refresh token based on the user's role
+    return generateTokens(role);
+};
+
+
+export default { login, refreshTokens };

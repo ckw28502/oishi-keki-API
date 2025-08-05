@@ -45,7 +45,7 @@ Fitur: Menambahkan kue ke applikasi
         Maka status respons harus 400
         Dan pesan respons harus "Nama kue sudah terpakai!"
 
-    Skenario: Berhasil mnambahkan kue
+    Skenario: Berhasil menambahkan kue
         Diketahui pengguna adalah pemilik
         Dan nama kue "Blackforest cake"
         Dan harga "100000"

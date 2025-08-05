@@ -16,6 +16,8 @@ jobs:
     services:
       postgres:
         image: postgres:17.5-alpine
+        ports:
+          - 5432:5432
         env:
           POSTGRES_USER: ${{ vars.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}

@@ -33,17 +33,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Install c8
+        run: npm install c8
+
       - name: Install sequelize cli
         run: npm install --save-dev sequelize-cli
 
       - name: Migrate database
         run: npm run migrate:test:up
-
-      - name: Install c8
-        run: npm install c8
-
-      - name: Run unit tests
-        run: npm run test:unit
 
       - name: Run BDD test
         run: npx c8 -r lcov npm run test:bdd

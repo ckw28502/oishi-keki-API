@@ -4,6 +4,7 @@ import { setupSwagger } from './src/config/swagger.js';
 import env from './src/config/env.js';
 import apiRouter from './src/routes/api.js';
 import errorHandler from './src/middlewares/errorHandler.js';
+import sequelize from './src/config/db.js';
 
 const app = express();
 

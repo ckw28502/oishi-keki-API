@@ -1,6 +1,6 @@
 {
   "name": "oishi-keki-api",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -11,6 +11,7 @@
     "body-parser": "^1.18.3",
     "bytes": "^3.0.0",
     "cloudinary": "^2.7.0",
+    "compression": "^1.8.1",
     "content-disposition": "^0.5.2",
     "content-type": "^1.0.5",
     "cookie": "^0.7.2",
@@ -42,7 +43,7 @@
     "mime": "^1.4.1",
     "mime-db": "^1.52.0",
     "mime-types": "^2.1.35",
-    "morgan": "^1.9.1",
+    "morgan": "^1.10.1",
     "ms": "^2.0.0",
     "negotiator": "^0.6.3",
     "on-finished": "^2.3.0",
@@ -73,7 +74,13 @@
   "scripts": {
     "start": "dotenvx run -f .env.dev -fk .env.dev.keys -- nodemon index.js",
     "test:unit": "dotenvx run -f .env.test -fk .env.test.keys -- vitest --coverage",
-    "test:bdd": " dotenvx run -f .env.test -fk .env.test.keys -- cucumber-js"
+    "test:bdd": " dotenvx run -f .env.test -fk .env.test.keys -- cucumber-js",
+    "migrate:dev:up": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
+    "migrate:dev:down": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:migrate:undo --config config/sequelize.cjs",
+    "migrate:test:up": "dotenvx run -f .env.test -fk .env.test.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
+    "migrate:test:down": "dotenvx run -f .env.test -fk .env.test.keys -- sequelize-cli db:migrate:undo --config config/sequelize.cjs",
+    "migrate:prod:up": "dotenvx run -f .env.prod -fk .env.prod.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
+    "migrate:prod:down": "dotenvx run -f .env.prod -fk .env.prod.keys -- sequelize-cli db:migrate:undo --config config/sequelize.cjs"
   },
   "repository": {
     "type": "git",

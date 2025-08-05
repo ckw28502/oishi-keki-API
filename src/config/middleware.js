@@ -1,5 +1,7 @@
 import helmet from 'helmet';
 import express from 'express';
+import morgan from 'morgan';
+import compression from 'compression';
 
 
 /**
@@ -18,4 +20,10 @@ export const setupMiddlewares = (app) => {
 
   // Disable the 'X-Powered-By' header to prevent revealing the use of Express
   app.disable('x-powered-by');
+
+  // Enable HTTP request logging
+  app.use(morgan("dev"));
+
+  // Compress response bodies for better performance
+  app.use(compression());
 }

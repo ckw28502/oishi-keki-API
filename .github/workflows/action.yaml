@@ -7,8 +7,8 @@ on:
     branches: ["main"]
 
 jobs:
-  sonarcloud:
-    name: Test + Sonar
+  sonar:
+    name: test and sonar
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     env:

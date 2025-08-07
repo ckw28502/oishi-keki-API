@@ -1,8 +1,24 @@
 import z from "zod/v4";
 
-const createCakeSchema = z.strictObject({
+const getCakesSchema = z.object({
+    page: z.coerce.number("Page should be a number!").positive("Page should be a positive number"),
+    limit: z.coerce.number("Page size should be a number!").positive("Page size should be a positive number"),
+    nameFilter: z.string("Cake name filter should be a string!").optional().default(""),
+    sortParam: z.enum(["name", "price"], "Invalid sorting parameter"),
+    isAscending: z.preprocess((val) => {
+        if (val === "true") {
+            return true
+        }
+        if (val === "false") {
+            return false
+        }
+        return val;
+    }, z.boolean("isAscending should be a boolean"))
+}).readonly();
+
+const createCakeSchema = z.object({
     name: z.string("Nama kue tidak boleh kosong!").min(1, "Nama kue tidak boleh kosong!"),
     price: z.number("Harga kue harus angka!").positive("Harga kue harus lebih besar dari 0 Rupiah!")
-});
+}).readonly();
 
-export { createCakeSchema };
+export { getCakesSchema, createCakeSchema };

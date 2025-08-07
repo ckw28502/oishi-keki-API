@@ -12,10 +12,10 @@ import authService from "../services/auth.service.js";
 const login = async (req, res, next) => {
     try {
         // Validate the request body against the login schema
-        const { username, password } = loginSchema.parse(req.body);
+        const reqBody = await loginSchema.parseAsync(req.body);
 
         // Import the authService to handle authentication logic
-        const result = await authService.login(username, password);
+        const result = await authService.login(reqBody);
 
         res.status(200).json(result);
 

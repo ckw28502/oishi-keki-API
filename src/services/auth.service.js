@@ -25,7 +25,7 @@ const credentials = [
  * @returns {Promise<object>} - A promise that resolves to an object containing access and refresh tokens.
  * @throws {Error} - Throws an error if the username or password is incorrect.
  */
-const login = async (username, password) => {
+const login = async ({ username, password }) => {
     // Check if the provided username and password match any of the credentials
     const user = credentials.find(cred => cred.username.toLowerCase() === username.toLowerCase() && cred.password === password);
 

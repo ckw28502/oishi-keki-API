@@ -8,6 +8,55 @@ const apiV1CakeRouter = express.Router();
 /**
  * @swagger
  * /api/v1/cakes:
+ *   get:
+ *     summary: Get paginated list of cakes
+ *     tags:
+ *       - Cakes
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         description: Number of items per page
+ *       - in: query
+ *         name: nameFilter
+ *         schema:
+ *           type: string
+ *           default: ""
+ *         description: Filter cakes by name
+ *       - in: query
+ *         name: sortParam
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [name, price]
+ *         description: Sort by field
+ *       - in: query
+ *         name: isAscending
+ *         required: true
+ *         schema:
+ *           type: boolean
+ *         description: Whether to sort in ascending order
+ *     responses:
+ *       200:
+ *         description: List of cakes with pagination
+ */
+apiV1CakeRouter.get("/", authenticateAccessToken, cakeController.getCakes);
+
+/**
+ * @swagger
+ * /api/v1/cakes:
  *   post:
  *     summary: Create a new cake
  *     description: Requires a valid access token and owner role authorization.

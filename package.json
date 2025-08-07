@@ -78,9 +78,9 @@
     "migrate:dev:up": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
     "migrate:dev:down": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:migrate:undo --config config/sequelize.cjs",
     "migrate:test:up": "dotenvx run -f .env.test -fk .env.test.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
-    "migrate:test:down": "dotenvx run -f .env.test -fk .env.test.keys -- sequelize-cli db:migrate:undo --config config/sequelize.cjs",
     "migrate:prod:up": "dotenvx run -f .env.prod -fk .env.prod.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
-    "migrate:prod:down": "dotenvx run -f .env.prod -fk .env.prod.keys -- sequelize-cli db:migrate:undo --config config/sequelize.cjs"
+    "seed:up": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:seed:all --config config/sequelize.cjs",
+    "seed:down": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:seed:undo:all --config config/sequelize.cjs"
   },
   "repository": {
     "type": "git",

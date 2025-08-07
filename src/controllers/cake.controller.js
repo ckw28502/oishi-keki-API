@@ -1,5 +1,19 @@
 import cakeService from "../services/cake.service.js";
-import { createCakeSchema } from "../validations/cake.validation.js";
+import { createCakeSchema, getCakesSchema } from "../validations/cake.validation.js";
+
+const getCakes = async (req, res, next) => {
+    try {
+        console.log(req.query);
+        const reqQuery = await getCakesSchema.parseAsync(req.query);
+
+        console.log(reqQuery)
+        const result = await cakeService.getCakes(reqQuery);
+
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
 
 /**
  * Controller for handling the creation of a new cake.
@@ -13,10 +27,10 @@ import { createCakeSchema } from "../validations/cake.validation.js";
 const createCake = async (req, res, next) => {
     try {
         // Validate request body using Zod schema
-        const { name, price } = createCakeSchema.parse(req.body);
+        const reqBody = await createCakeSchema.parseAsync(req.body);
 
         // Create the cake using the service layer
-        await cakeService.createCake(name, price);
+        await cakeService.createCake(reqBody);
 
         // Respond with 201 Created
         res.sendStatus(201);
@@ -26,4 +40,4 @@ const createCake = async (req, res, next) => {
     }
 }
 
-export default { createCake };
+export default { getCakes, createCake };

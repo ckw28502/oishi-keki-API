@@ -1,19 +1,37 @@
 import cakeService from "../services/cake.service.js";
 import { createCakeSchema, getCakesSchema } from "../validations/cake.validation.js";
 
+/**
+ * Controller to handle the GET /cakes request with pagination, filtering, and sorting.
+ *
+ * It validates the query parameters using Zod schema, then calls the service layer
+ * to get the list of cakes, and finally sends the JSON response with the results.
+ *
+ * @param {import('express').Request} req - Express request object, expects query parameters:
+ *   - page: number (required, positive)
+ *   - size: number (required, positive)
+ *   - nameFilter: string (optional, defaults to empty string)
+ *   - sortParam: string (required, one of "name" or "price")
+ *   - isAscending: boolean (required)
+ * @param {import('express').Response} res - Express response object
+ * @param {import('express').NextFunction} next - Express next middleware function for error handling
+ */
 const getCakes = async (req, res, next) => {
     try {
-        console.log(req.query);
+        // Validate and parse query parameters
         const reqQuery = await getCakesSchema.parseAsync(req.query);
 
-        console.log(reqQuery)
+        // Call service to fetch cakes data based on the validated query
         const result = await cakeService.getCakes(reqQuery);
 
+        // Send successful JSON response with cake data
         res.status(200).json(result);
     } catch (error) {
+        // Pass error to Express error handler middleware
         next(error);
     }
-}
+};
+
 
 /**
  * Controller for handling the creation of a new cake.

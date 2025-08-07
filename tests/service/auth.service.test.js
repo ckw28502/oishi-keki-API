@@ -58,7 +58,7 @@ describe('Authentication service', () => {
             }
         ])('Should throw InvalidCredentialsError for $testCase', async ({ username, password }) => {
             // Act + Assert: Login attempt should throw InvalidCredentialsError
-            await expect(authService.login(username, password)).rejects.toThrow(InvalidCredentialsError);
+            await expect(authService.login({ username, password })).rejects.toThrow(InvalidCredentialsError);
         });
 
         // Test valid login scenarios for both Owner and Employee
@@ -75,7 +75,7 @@ describe('Authentication service', () => {
             }
         ])('Should return valid access token and refresh token for $username', async ({ username, password, role }) => {
             // Act: Attempt login with valid credentials
-            const tokens = await authService.login(username, password);
+            const tokens = await authService.login({ username, password });
 
             // Assert: Check the tokens validity
             assertTokens(tokens, role);

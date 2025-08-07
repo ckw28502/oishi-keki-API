@@ -15,6 +15,60 @@ describe('Cake service', () => {
         vi.clearAllMocks();
     });
 
+    describe("Get cakes", () => {
+        const reqParams = {
+            page: 1,
+            limit: 2,
+            nameFilter: "",
+            sortParam: "name",
+            isAscending: true
+        };
+
+        it('should throw an error when fetching cakes from database failed ', async () => {
+            // Arrange: simulate a DB error when fetching cakes
+            const error = new Error("DB Error");
+            Cake.findAndCountAll.mockRejectedValue(error);
+
+            // Act + Assert: expect the service to throw the same error
+            await expect(cakeService.getCakes(reqParams)).rejects.toThrow(error.message);
+        });
+
+        it('should return the list of cakes when fetching cakes from database succesful', async () => {
+            // Arrange: mock a successful fetch of cake list
+            const mockData = {
+                count: 4,
+                rows: [
+                    {
+                        name: "Chiffon cake",
+                        price: 150000
+                    },
+                    {
+                        name: "Chocolate cake",
+                        price: 170000
+                    }
+                ]
+            };
+            const expectedResult = {
+                count: 4,
+                totalPages: 2,
+                cakes: mockData.rows
+            }
+            Cake.findAndCountAll.mockResolvedValue(mockData);
+
+            // Act: call the service with valid data
+            const actualResult = await cakeService.getCakes(reqParams);
+
+            // Assert: verify correct DB call and return value
+            expect(Cake.findAndCountAll).toHaveBeenCalledExactlyOnceWith({
+                offset: 0,
+                where: {},
+                order: [[reqParams.sortParam, "ASC"]],
+                limit: reqParams.limit
+            });
+            expect(actualResult).toEqual(expectedResult);
+        });
+    });
+
     describe("Create cake", () => {
         it('should throw an error when Cake.create fails', async () => {
             // Arrange: simulate a DB error when creating a cake
@@ -22,7 +76,7 @@ describe('Cake service', () => {
             Cake.create.mockRejectedValue(error);
 
             // Act + Assert: expect the service to throw the same error
-            await expect(cakeService.createCake(cakeData.name, cakeData.price)).rejects.toThrow(error.message);
+            await expect(cakeService.createCake(cakeData)).rejects.toThrow(error.message);
         });
 
         it('should return the created cake object when Cake.create succeeds', async () => {
@@ -31,7 +85,7 @@ describe('Cake service', () => {
             Cake.create.mockResolvedValue(expectedResult);
 
             // Act: call the service with valid data
-            const actualResult = await cakeService.createCake(cakeData.name, cakeData.price);
+            const actualResult = await cakeService.createCake(cakeData);
 
             // Assert: verify correct DB call and return value
             expect(Cake.create).toHaveBeenCalledExactlyOnceWith(cakeData);

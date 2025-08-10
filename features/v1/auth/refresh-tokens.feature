@@ -1,7 +1,7 @@
 # language: id
 Fitur: Buat ulang token pengguna
 
-    Skenario: Tidak diizinkan karena token tidak ada di header
+    Skenario konsep: Tidak diizinkan karena token tidak ada di header
         Diketahui pengguna <token> token akses
         Dan Authorization header <header>
         Ketika pengguna mengirimkan permintaan untuk buat ulang token
@@ -14,7 +14,7 @@ Fitur: Buat ulang token pengguna
             | punya       | tidak valid |
             | tidak punya | valid       |
     
-    Skenario: Berhasil membuat ulang token
+    Skenario konsep: Berhasil membuat ulang token
         Diketahui pengguna akan membuat ulang token dengan <peran>
         Ketika pengguna mengirimkan permintaan untuk buat ulang token
         Maka status respons harus 200

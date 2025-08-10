@@ -6,6 +6,7 @@ import app from '../../../index.js';
  * Extend this object if you need to support other methods (e.g., GET, PUT, DELETE).
  */
 const Methods = {
+    Get: "GET",
     Post: "POST"
 };
 
@@ -14,19 +15,24 @@ const Methods = {
  *
  * @param {string} path - The API endpoint to send the request to (e.g., "/cakes").
  * @param {string} method - The HTTP method to use (e.g., "POST"). Must be one of the values in the `Methods` object.
- * @param {object} reqBody - The request payload/body to send with the request.
+ * @param {object} data - The request body/params to send with the request.
  * @param {string} [authHeader=""] - Optional Authorization header value (e.g., "Bearer <token>"). Defaults to an empty string.
  *
  * @returns {Promise<object|undefined>} - The response object from the server, or `undefined` if method is unsupported.
  */
-const sendRequest = async (path, method, reqBody, authHeader = "") => {
+const sendRequest = async (path, method, data, authHeader = "") => {
     const req = request(app);
     
     switch (method) {
+        case Methods.Get:
+            return await req.get(path)
+                .query(data)
+                .set('Accept', 'application/json')
+                .set('Authorization', authHeader || "");
+                
         case Methods.Post:
-            return await req
-                .post(path)
-                .send(reqBody)
+            return await req.post(path)
+                .send(data)
                 .set('Accept', 'application/json')
                 .set('Authorization', authHeader || "");
 

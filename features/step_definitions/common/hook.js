@@ -1,6 +1,6 @@
-import { AfterAll } from "@cucumber/cucumber";
+import { After } from "@cucumber/cucumber";
 import Cake from "../../../src/models/cake.js";
 
-AfterAll(async function () {
+After({ tags: "@cake" }, async function () {
     await Cake.destroy({ where: {}, truncate: true });
-})
+});

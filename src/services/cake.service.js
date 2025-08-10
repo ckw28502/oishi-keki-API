@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
 import Cake from "../models/cake.js"
+import { convertCakesToDtos } from "../dto/cake.dto.js";
 
 /**
  * Service to fetch paginated, filtered, and sorted list of cakes from the database.
@@ -36,7 +37,7 @@ const getCakes = async ({ page, limit, nameFilter, sortParam, isAscending }) => 
     });
 
     return {
-        cakes: rows,
+        cakes: convertCakesToDtos(rows),
         totalPages: Math.ceil(count / limit),
         count
     };

@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import Cake from "../../src/models/cake.js";
 import cakeService from "../../src/services/cake.service";
+import { convertCakesToDtos } from "../../src/dto/cake.dto.js";
 
 vi.mock("../../src/models/cake.js");
 
@@ -51,8 +52,9 @@ describe('Cake service', () => {
             const expectedResult = {
                 count: 4,
                 totalPages: 2,
-                cakes: mockData.rows
-            }
+                cakes: convertCakesToDtos(mockData.rows)
+            };
+            
             Cake.findAndCountAll.mockResolvedValue(mockData);
 
             // Act: call the service with valid data

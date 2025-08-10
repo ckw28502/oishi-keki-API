@@ -1,7 +1,7 @@
 # language: id
-Fitur: Menambahkan kue ke applikasi
+Fitur: Menambahkan kue ke aplikasi
 
-    Skenario: Tidak diizinkan karena token tidak ada di header
+    Skenario konsep: Tidak diizinkan karena token tidak ada di header
         Diketahui pengguna <token> token akses
         Dan Authorization header <header>
         Ketika pengguna mengirimkan permintaan untuk membuat kue
@@ -20,7 +20,7 @@ Fitur: Menambahkan kue ke applikasi
         Maka status respons harus 403
         Dan pesan respons harus "This user does not have authorization for this endpoint!"
 
-    Skenario: Gagal karena permintaan tidak valid
+    Skenario konsep: Gagal karena permintaan tidak valid
         Diketahui pengguna adalah pemilik
         Dan nama kue "<nama>"
         Dan harga "<harga>"
@@ -36,18 +36,20 @@ Fitur: Menambahkan kue ke applikasi
             |              | 1     | Nama kue tidak boleh kosong!                                             |
             | Chiffon cake | 0     | Harga kue harus lebih besar dari 0 Rupiah!                               |
     
+    @cake
     Skenario: Gagal karena nama kue sudah terpakai
         Diketahui pengguna adalah pemilik
-        Dan nama kue "Marble cake"
+        Dan nama kue "Chiffon cake"
         Dan harga "100000"
-        Dan kue dengan nama "Marble cake" dan harga 100000 telah ditambahkan
+        Dan kue dengan nama "Chiffon cake" dan harga 100000 telah ditambahkan
         Ketika pengguna mengirimkan permintaan untuk membuat kue
         Maka status respons harus 400
         Dan pesan respons harus "Nama kue sudah terpakai!"
 
+    @cake
     Skenario: Berhasil menambahkan kue
         Diketahui pengguna adalah pemilik
-        Dan nama kue "Blackforest cake"
+        Dan nama kue "Chiffon cake"
         Dan harga "100000"
         Ketika pengguna mengirimkan permintaan untuk membuat kue
         Maka status respons harus 201

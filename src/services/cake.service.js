@@ -57,7 +57,4 @@ const createCake = async ({ name, price }) => {
     return await Cake.create({ name, price });
 }
 
-
-
-
 export default { getCakes, createCake };

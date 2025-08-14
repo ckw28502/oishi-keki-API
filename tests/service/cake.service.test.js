@@ -21,8 +21,7 @@ describe('Cake service', () => {
             page: 1,
             limit: 2,
             nameFilter: "",
-            sortParam: "name",
-            isAscending: true
+            sort: "name_asc"
         };
 
         it('should throw an error when fetching cakes from database failed ', async () => {
@@ -64,7 +63,7 @@ describe('Cake service', () => {
             expect(Cake.findAndCountAll).toHaveBeenCalledExactlyOnceWith({
                 offset: 0,
                 where: {},
-                order: [[reqParams.sortParam, "ASC"]],
+                order: [["name", "ASC"]],
                 limit: reqParams.limit
             });
             expect(actualResult).toEqual(expectedResult);

@@ -9,15 +9,15 @@ import { convertCakesToDtos } from "../dto/cake.dto.js";
  * @param {number} params.page - Current page number (1-based)
  * @param {number} params.limit - Number of items per page
  * @param {string} [params.nameFilter] - Optional filter for cake name (case-insensitive, partial match)
- * @param {string} params.sortParam - Column to sort by ("name" or "price")
- * @param {boolean} params.isAscending - Sort direction: true for ascending, false for descending
+ * @param {string} params.sort - Column to sort by ("name" or "price")
  *
  * @returns {Promise<Object>} Returns an object containing:
  *  - cakes: Array of cake records matching the query
  *  - totalPages: Total number of pages based on count and limit
  *  - count: Total number of cakes matching the filter
  */
-const getCakes = async ({ page, limit, nameFilter, sortParam, isAscending }) => {
+const getCakes = async ({ page, limit, nameFilter, sort }) => {
+    console.log(sort)
     const offset = (page - 1) * limit;
 
     const where = {};
@@ -27,7 +27,9 @@ const getCakes = async ({ page, limit, nameFilter, sortParam, isAscending }) => 
         };
     }
 
-    const order = [[sortParam, isAscending ? "ASC" : "DESC"]];
+    const [sortParam, isAscending] = sort.split("_");
+
+    const order = [[sortParam, isAscending.toUpperCase()]];
 
     const { count, rows } = await Cake.findAndCountAll({ 
         where,

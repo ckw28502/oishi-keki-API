@@ -22,15 +22,15 @@ Given('filter nama kue berisi {string}', function (nameFilter) {
 });
 
 Given('parameter untuk mengurutkan adalah {string}', function (sortParam) {
-    this.params.sortParam = sortParam;
+    this.params.sort = sortParam;
 });
 
 Given('urutan ASC', function () {
-    this.params.isAscending = true;
+    this.params.sort += "_asc";
 });
 
 Given('urutan DESC', function () {
-    this.params.isAscending = false;
+    this.params.sort += "_desc";
 });
 
 When('pengguna mengirimkan permintaan untuk mendapatkan daftar kue', async function () {

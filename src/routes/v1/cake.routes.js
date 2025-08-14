@@ -36,18 +36,12 @@ const apiV1CakeRouter = express.Router();
  *           default: ""
  *         description: Filter cakes by name
  *       - in: query
- *         name: sortParam
+ *         name: sort
  *         required: true
  *         schema:
  *           type: string
- *           enum: [name, price]
+ *           enum: [name_asc, name_desc, price_asc, price_desc]
  *         description: Sort by field
- *       - in: query
- *         name: isAscending
- *         required: true
- *         schema:
- *           type: boolean
- *         description: Whether to sort in ascending order
  *     responses:
  *       200:
  *         description: List of cakes with pagination

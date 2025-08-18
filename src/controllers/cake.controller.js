@@ -48,10 +48,10 @@ const createCake = async (req, res, next) => {
         const reqBody = await createCakeSchema.parseAsync(req.body);
 
         // Create the cake using the service layer
-        await cakeService.createCake(reqBody);
+        const result = await cakeService.createCake(reqBody);
 
         // Respond with 201 Created
-        res.sendStatus(201);
+        res.status(201).json(result);
     } catch (error) {
         // Pass error to centralized error handler
         next(error);

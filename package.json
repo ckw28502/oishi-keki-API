@@ -81,7 +81,8 @@
     "migrate:test:up": "dotenvx run -f .env.test -fk .env.test.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
     "migrate:prod:up": "dotenvx run -f .env.prod -fk .env.prod.keys -- sequelize-cli db:migrate --config config/sequelize.cjs",
     "seed:up": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:seed:all --config config/sequelize.cjs",
-    "seed:down": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:seed:undo:all --config config/sequelize.cjs"
+    "seed:down": "dotenvx run -f .env.dev -fk .env.dev.keys -- sequelize-cli db:seed:undo:all --config config/sequelize.cjs",
+    "setup": "docker compose up -d && npm run migrate:dev:up && npm run seed:up"
   },
   "repository": {
     "type": "git",

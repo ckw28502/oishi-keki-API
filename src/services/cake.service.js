@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import Cake from "../models/cake.js"
-import { convertCakesToDtos } from "../dto/cake.dto.js";
+import { convertCakesToDtos, convertCakeToDto } from "../dto/cake.dto.js";
 
 /**
  * Service to fetch paginated, filtered, and sorted list of cakes from the database.
@@ -56,7 +56,9 @@ const getCakes = async ({ page, limit, nameFilter, sort }) => {
  */
 const createCake = async ({ name, price }) => {
     // Create a new cake record in the database
-    return await Cake.create({ name, price });
+    const cake = await Cake.create({ name, price });
+
+    return { cake: convertCakeToDto(cake) };
 }
 
 export default { getCakes, createCake };

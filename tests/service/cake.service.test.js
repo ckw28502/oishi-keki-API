@@ -82,8 +82,10 @@ describe('Cake service', () => {
 
         it('should return the created cake object when Cake.create succeeds', async () => {
             // Arrange: mock a successful cake creation
-            const expectedResult = { id: 1, ...cakeData };
-            Cake.create.mockResolvedValue(expectedResult);
+            const mockCake = { id: 1, ...cakeData };
+            Cake.create.mockResolvedValue(mockCake);
+            
+            const expectedResult = { cake: mockCake };
 
             // Act: call the service with valid data
             const actualResult = await cakeService.createCake(cakeData);

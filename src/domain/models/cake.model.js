@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/db.js";
+import sequelize from "../../config/db.js";
 
 // Define the Cake model using Sequelize ORM
 const Cake = sequelize.define("Cake", {

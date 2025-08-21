@@ -1,6 +1,6 @@
 import { Given, When, Then } from "@cucumber/cucumber";
 import { Methods, sendRequest } from "../../common/helper.js";
-import Cake from "../../../../src/models/cake.js";
+import Cake from "../../../../src/domain/models/cake.model.js";
 import assert from 'assert';
 import { assertCake } from "../../common/cake.js";
 

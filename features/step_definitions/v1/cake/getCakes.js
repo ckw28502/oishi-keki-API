@@ -1,8 +1,7 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import { Methods, sendRequest } from '../../common/helper.js';
-import Cake from '../../../../src/models/cake.js';
+import Cake from '../../../../src/domain/models/cake.model.js';
 import assert from 'assert';
-import { convertCakeToDto } from '../../../../src/dto/cake.dto.js';
 
 
 Given('kue-kue di bawah telah terdaftar di basis data:', async function (cakes) {
@@ -55,7 +54,11 @@ Then('daftar kue yang didapat adalah {string}', function (expectedCakesStr) {
         const expectedCakeNames = expectedCakesStr.split(", ");
         expectedCakes = expectedCakeNames.map(name => {
             const cake = this.cakes.find(cake => cake.name === name);
-            return convertCakeToDto(cake);
+            return {
+                id: cake.id,
+                name: cake.name,
+                price: cake.price
+            }
         });
     }
     

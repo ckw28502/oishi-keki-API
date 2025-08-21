@@ -1,31 +1,26 @@
 /**
- * Converts a single cake object into a Data Transfer Object (DTO) 
- * by returning only the relevant public fields.
- *
- * @param {Object} cake - The cake object to convert.
- * @param {string} cake.id - Unique identifier of the cake.
- * @param {string} cake.name - Name of the cake.
- * @param {number} cake.price - Price of the cake in smallest currency unit (e.g., Rupiah).
- * @returns {Object} The cake DTO with only `id`, `name`, and `price`.
+ * Data Transfer Object (DTO) for Cake.
+ * Used to transfer cake data between layers (e.g., service to controller or API response).
  */
-const convertCakeToDto = (cake) => {
-    return {
-        id: cake.id,
-        name: cake.name,
-        price: cake.price
-    };
-};
+class CakeDTO {
+    /**
+     * Creates a new CakeDTO.
+     *
+     * @param {Object} params - Cake properties
+     * @param {string} params.id - Unique identifier of the cake
+     * @param {string} params.name - Name of the cake
+     * @param {number} params.price - Price of the cake
+     */
+    constructor({ id, name, price }) {
+        /** @type {string} - Unique identifier of the cake */
+        this.id = id;
 
-/**
- * Converts an array of cake objects into an array of cake DTOs.
- * Uses `convertCakeToDto` internally for each element.
- *
- * @param {Object[]} cakes - Array of cake objects to convert.
- * @returns {Object[]} An array of cake DTOs with only `id`, `name`, and `price`.
- */
-const convertCakesToDtos = (cakes) => {
-    return cakes.map(cake => convertCakeToDto(cake));
-};
+        /** @type {string} - Name of the cake */
+        this.name = name;
 
+        /** @type {number} - Price of the cake */
+        this.price = price;
+    }
+}
 
-export { convertCakeToDto, convertCakesToDtos };
+export default CakeDTO;

@@ -1,6 +1,6 @@
-import { Op } from "sequelize";
-import Cake from "../models/cake.js"
-import { convertCakesToDtos, convertCakeToDto } from "../dto/cake.dto.js";
+import CakeEntity from "../domain/entities/cake.entity.js";
+import CakeDTO from "../dto/cake.dto.js";
+import { convertCakesEntitiesToDtos } from "../mappers/cake.mapper.js";
 import cakeRepository from "../repositories/cake.repository.js";
 
 /**
@@ -31,7 +31,7 @@ const getCakes = async ({ page, limit, nameFilter, sort }) => {
     })
 
     return {
-        cakes: convertCakesToDtos(cakes),
+        cakes: convertCakesEntitiesToDtos(cakes),
         totalPages,
         count
     };
@@ -44,13 +44,15 @@ const getCakes = async ({ page, limit, nameFilter, sort }) => {
  * @param {Object} requestBody - The request body containing cake details.
  * @param {string} requestBody.name - The name of the cake to be created.
  * @param {number} requestBody.price - The price of the cake to be created.
- * @returns {Promise<Object>} The created cake instance.
+ * @returns {Promise<CakeDTO>} The created cake instance.
  */
 const createCake = async (reqBody) => {
-    // Create a new cake record in the database
-    const cake = await cakeRepository.createCake(reqBody);
+    const cakeEntity = new CakeEntity(reqBody);
 
-    return { cake: convertCakeToDto(cake) };
+    // Create a new cake record in the database
+    const cake = await cakeRepository.createCake(cakeEntity);
+
+    return { cake: new CakeDTO(cake) };
 }
 
 export default { getCakes, createCake };

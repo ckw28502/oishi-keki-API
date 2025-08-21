@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import Cake from "../models/cake.js"
 import { convertCakesToDtos, convertCakeToDto } from "../dto/cake.dto.js";
+import cakeRepository from "../repositories/cake.repository.js";
 
 /**
  * Service to fetch paginated, filtered, and sorted list of cakes from the database.
@@ -17,30 +18,21 @@ import { convertCakesToDtos, convertCakeToDto } from "../dto/cake.dto.js";
  *  - count: Total number of cakes matching the filter
  */
 const getCakes = async ({ page, limit, nameFilter, sort }) => {
-    console.log(sort)
     const offset = (page - 1) * limit;
 
-    const where = {};
-    if (nameFilter) {
-        where.name = {
-            [Op.iLike]: `%${nameFilter}%`
-        };
-    }
+    const [sortParam, sortDirection] = sort.split("_");
 
-    const [sortParam, isAscending] = sort.split("_");
-
-    const order = [[sortParam, isAscending.toUpperCase()]];
-
-    const { count, rows } = await Cake.findAndCountAll({ 
-        where,
+    const { count, cakes, totalPages } = await cakeRepository.getCakes({
         offset,
         limit,
-        order
-    });
+        nameFilter,
+        sortParam,
+        sortDirection: sortDirection.toUpperCase()
+    })
 
     return {
-        cakes: convertCakesToDtos(rows),
-        totalPages: Math.ceil(count / limit),
+        cakes: convertCakesToDtos(cakes),
+        totalPages,
         count
     };
 };
@@ -54,9 +46,9 @@ const getCakes = async ({ page, limit, nameFilter, sort }) => {
  * @param {number} requestBody.price - The price of the cake to be created.
  * @returns {Promise<Object>} The created cake instance.
  */
-const createCake = async ({ name, price }) => {
+const createCake = async (reqBody) => {
     // Create a new cake record in the database
-    const cake = await Cake.create({ name, price });
+    const cake = await cakeRepository.createCake(reqBody);
 
     return { cake: convertCakeToDto(cake) };
 }

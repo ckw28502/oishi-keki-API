@@ -1,9 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import Cake from "../../src/models/cake.js";
 import cakeService from "../../src/services/cake.service";
 import { convertCakesToDtos } from "../../src/dto/cake.dto.js";
+import cakeRepository from "../../src/repositories/cake.repository.js";
 
-vi.mock("../../src/models/cake.js");
+vi.mock("../../src/repositories/cake.repository.js");
+
 
 describe('Cake service', () => {
     const cakeData = {
@@ -27,7 +28,7 @@ describe('Cake service', () => {
         it('should throw an error when fetching cakes from database failed ', async () => {
             // Arrange: simulate a DB error when fetching cakes
             const error = new Error("DB Error");
-            Cake.findAndCountAll.mockRejectedValue(error);
+            cakeRepository.getCakes.mockRejectedValue(error);
 
             // Act + Assert: expect the service to throw the same error
             await expect(cakeService.getCakes(reqParams)).rejects.toThrow(error.message);
@@ -37,7 +38,7 @@ describe('Cake service', () => {
             // Arrange: mock a successful fetch of cake list
             const mockData = {
                 count: 4,
-                rows: [
+                cakes: [
                     {
                         name: "Chiffon cake",
                         price: 150000
@@ -46,25 +47,27 @@ describe('Cake service', () => {
                         name: "Chocolate cake",
                         price: 170000
                     }
-                ]
+                ],
+                totalPages: 2
             };
             const expectedResult = {
                 count: 4,
-                totalPages: 2,
-                cakes: convertCakesToDtos(mockData.rows)
+                totalPages: mockData.totalPages,
+                cakes: convertCakesToDtos(mockData.cakes)
             };
             
-            Cake.findAndCountAll.mockResolvedValue(mockData);
+            cakeRepository.getCakes.mockResolvedValue(mockData);
 
             // Act: call the service with valid data
             const actualResult = await cakeService.getCakes(reqParams);
 
             // Assert: verify correct DB call and return value
-            expect(Cake.findAndCountAll).toHaveBeenCalledExactlyOnceWith({
+            expect(cakeRepository.getCakes).toHaveBeenCalledExactlyOnceWith({
+                limit: reqParams.limit,
                 offset: 0,
-                where: {},
-                order: [["name", "ASC"]],
-                limit: reqParams.limit
+                nameFilter: reqParams.nameFilter,
+                sortParam: "name",
+                sortDirection: "ASC"
             });
             expect(actualResult).toEqual(expectedResult);
         });
@@ -74,7 +77,7 @@ describe('Cake service', () => {
         it('should throw an error when Cake.create fails', async () => {
             // Arrange: simulate a DB error when creating a cake
             const error = new Error("DB Error");
-            Cake.create.mockRejectedValue(error);
+            cakeRepository.createCake.mockRejectedValue(error);
 
             // Act + Assert: expect the service to throw the same error
             await expect(cakeService.createCake(cakeData)).rejects.toThrow(error.message);
@@ -83,7 +86,7 @@ describe('Cake service', () => {
         it('should return the created cake object when Cake.create succeeds', async () => {
             // Arrange: mock a successful cake creation
             const mockCake = { id: 1, ...cakeData };
-            Cake.create.mockResolvedValue(mockCake);
+            cakeRepository.createCake.mockResolvedValue(mockCake);
             
             const expectedResult = { cake: mockCake };
 
@@ -91,7 +94,7 @@ describe('Cake service', () => {
             const actualResult = await cakeService.createCake(cakeData);
 
             // Assert: verify correct DB call and return value
-            expect(Cake.create).toHaveBeenCalledExactlyOnceWith(cakeData);
+            expect(cakeRepository.createCake).toHaveBeenCalledExactlyOnceWith(cakeData);
             expect(actualResult).toEqual(expectedResult);
         });
     });

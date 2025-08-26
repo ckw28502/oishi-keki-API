@@ -61,7 +61,7 @@ const createCake = async (req, res, next) => {
 /**
  * Controller for handling the editing of an existing cake.
  *
- * Validates the request body, then delegates creation logic to the service layer.
+ * Validates the request body, then delegates the edit logic to the service layer.
  *
  * @param {import('express').Request} req - Express request object containing the cake data in the body.
  * @param {import('express').Response} res - Express response object used to send the status.
@@ -86,4 +86,35 @@ const editCake = async (req, res, next) => {
     }
 }
 
-export default { getCakes, createCake, editCake };
+/**
+ * Controller for handling cake deletion.
+ *
+ * Validates the request body, then delegates deletion logic to the service layer.
+ *
+ * @param {import('express').Request} req - Express request object containing the cake data in the body.
+ * @param {import('express').Response} res - Express response object used to send the status.
+ * @param {import('express').NextFunction} next - Express next middleware function for error handling.
+ */
+const deleteCake = async (req, res, next) => {
+    try {
+        // Validate request parameters using Zod schema
+        const { id } = await cakeIdParamSchema.parseAsync(req.params);;
+
+        // Delete the cake using the service layer
+        await cakeService.deleteCake(id);
+
+        // Respond with 204 No Content
+        res.sendStatus(204);
+    } catch (error) {
+        // Pass error to centralized error handler
+        next(error);
+    }
+}
+
+
+export default { 
+    getCakes, 
+    createCake, 
+    editCake,
+    deleteCake
+};

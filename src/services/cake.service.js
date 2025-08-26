@@ -55,7 +55,7 @@ const createCake = async (reqBody) => {
 }
 
 /**
- * Express handler for editing an existing cake.
+ * Edit an existing cake record in database.
  *
  *
  * @async
@@ -71,5 +71,23 @@ const editCake = async (req) => {
     await cakeRepository.editCake(cakeEntity);
 };
 
+/**
+ * Delete an existing cake record in database.
+ *
+ * @async
+ * @function deleteCake
+ * @param {string} id - the cake identifier.
+ * @returns {Promise<void>} Resolves when the deletion is successful.
+ * 
+ */
+const deleteCake = async (id) => {
+    await cakeRepository.deleteCake(id);
+}
 
-export default { getCakes, createCake, editCake };
+
+export default { 
+    getCakes, 
+    createCake, 
+    editCake, 
+    deleteCake 
+};

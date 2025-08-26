@@ -76,9 +76,29 @@ const editCake = async (cakeEntity) => {
     }
 };
 
+/**
+ * Updates an existing cake entity in the database.
+ *
+ * @async
+ * @param {string} id - The cake identifier.
+ * @throws {CakeNotFoundError} If no cake with the given ID exists in the database.
+ * @returns {Promise<void>} Resolves if the update is successful, otherwise throws.
+ *
+ */
+const deleteCake = async (id) => {
+    const affectedCount = await Cake.destroy({
+        where: { id }
+    });
+
+    if (affectedCount === 0) {
+        throw new CakeNotFoundError();
+    }
+}
+
 
 export default {
     getCakes,
     createCake,
-    editCake
+    editCake,
+    deleteCake
 };

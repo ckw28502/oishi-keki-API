@@ -94,6 +94,8 @@ apiV1CakeRouter.post("/", authenticateAccessToken, authenticateOwner, cakeContro
  *   put:
  *     summary: Update a cake by ID
  *     tags: [Cakes]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -120,9 +122,45 @@ apiV1CakeRouter.post("/", authenticateAccessToken, authenticateOwner, cakeContro
  *         description: Cake updated successfully
  *       400:
  *         description: Invalid input
- *       404:
- *         description: Cake not found
+ *       401:
+ *         description: Unauthorized, missing or invalid token
+ *       403:
+ *         description: Forbidden, user is not the owner
+ *       500:
+ *         description: Internal Server error
  */
 apiV1CakeRouter.put("/:id", authenticateAccessToken, authenticateOwner, cakeController.editCake);
+
+/**
+ * @swagger
+ * /api/v1/cakes/{id}:
+ *   delete:
+ *     summary: Delete a cake by ID
+ *     description: Deletes a specific cake. Only the owner can perform this action.
+ *     tags:
+ *       - Cakes
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: UUID of the cake to delete
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       204:
+ *         description: Cake successfully deleted
+ *       400:
+ *         description: Invalid ID or request
+ *       401:
+ *         description: Unauthorized, missing or invalid token
+ *       403:
+ *         description: Forbidden, user is not the owner
+ *       500:
+ *         description: Internal server error
+ */
+apiV1CakeRouter.delete("/:id", authenticateAccessToken, authenticateOwner, cakeController.deleteCake);
 
 export default apiV1CakeRouter;

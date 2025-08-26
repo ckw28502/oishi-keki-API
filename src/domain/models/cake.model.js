@@ -30,9 +30,8 @@ const Cake = sequelize.define("Cake", {
     }
 }, {
     tableName: "cakes",
-
-    // Automatically add and manage "createdAt" and "updatedAt" timestamp fields
-    timestamps: true
+    timestamps: true, // Automatically add and manage "createdAt" and "updatedAt" timestamp fields
+    paranoid: true // Enables soft deletes by adding a "deletedAt" timestamp field
 });
 
 export default Cake;

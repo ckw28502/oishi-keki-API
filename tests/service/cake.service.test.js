@@ -76,7 +76,7 @@ describe('Cake service', () => {
     });
 
     describe("Create cake", () => {
-        it('should throw an error when Cake.create fails', async () => {
+        it('should throw an error when creating cake fails', async () => {
             // Arrange: simulate a DB error when creating a cake
             const error = new Error("DB Error");
             cakeRepository.createCake.mockRejectedValue(error);
@@ -85,7 +85,7 @@ describe('Cake service', () => {
             await expect(cakeService.createCake(cakeData)).rejects.toThrow(error.message);
         });
 
-        it('should return the created cake object when Cake.create succeeds', async () => {
+        it('should store a new cake when creating cake succeed', async () => {
             // Arrange: mock a successful cake creation
             const mockCreatedCake = new CakeEntity({ id: 1, ...cakeData });
             cakeRepository.createCake.mockResolvedValue(new CakeEntity({ id: 1, ...cakeData }));
@@ -96,6 +96,28 @@ describe('Cake service', () => {
             // Assert: verify correct DB call and return value
             expect(cakeRepository.createCake).toHaveBeenCalledExactlyOnceWith(new CakeEntity(cakeData));
             expect(cakeRepository.createCake).toHaveResolvedWith(mockCreatedCake);
+        });
+    });
+
+    describe("Edit cake", () => {
+        it('should throw an error when edit cake fails', async () => {
+            // Arrange: simulate a DB error when creating a cake
+            const error = new Error("DB Error");
+            cakeRepository.editCake.mockRejectedValue(error);
+
+            // Act + Assert: expect the service to throw the same error
+            await expect(cakeService.editCake(cakeData)).rejects.toThrow(error.message);
+        });
+
+        it('should update the edited cake object when edit cake succeeds', async () => {
+            // Arrange: mock a successful cake creation
+            cakeRepository.editCake.mockResolvedValue(new CakeEntity({ id: 1, ...cakeData }));
+            
+            // Act: call the service with valid data
+            await cakeService.editCake(cakeData);
+
+            // Assert: verify correct DB call and return value
+            expect(cakeRepository.editCake).toHaveBeenCalledExactlyOnceWith(new CakeEntity(cakeData));
         });
     });
 });

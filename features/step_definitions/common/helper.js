@@ -7,7 +7,8 @@ import app from '../../../index.js';
  */
 const Methods = {
     Get: "GET",
-    Post: "POST"
+    Post: "POST",
+    Put: "PUT"
 };
 
 /**
@@ -32,6 +33,12 @@ const sendRequest = async (path, method, data, authHeader = "") => {
                 
         case Methods.Post:
             return await req.post(path)
+                .send(data)
+                .set('Accept', 'application/json')
+                .set('Authorization', authHeader || "");
+
+        case Methods.Put:
+            return await req.put(path)
                 .send(data)
                 .set('Accept', 'application/json')
                 .set('Authorization', authHeader || "");

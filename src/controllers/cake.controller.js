@@ -69,11 +69,19 @@ const createCake = async (req, res, next) => {
  */
 const editCake = async (req, res, next) => {
     try {
+        // Validate request parameters using Zod schema
         const { id } = await cakeIdParamSchema.parseAsync(req.params);
+
+        // Validate request body using Zod schema
         const reqBody = await editCakeSchema.parseAsync(req.body);
+
+        // Edit the cake using the service layer
         await cakeService.editCake({ id, ...reqBody });
+
+        // Respond with 204 No Content
         res.sendStatus(204);
     } catch (error) {
+        // Pass error to centralized error handler
         next(error);
     }
 }

@@ -66,6 +66,8 @@ const createCake = async (reqBody) => {
  */
 const editCake = async (req) => {
     const cakeEntity = new CakeEntity(req);
+
+    // Edit the cake record in the database
     await cakeRepository.editCake(cakeEntity);
 };
 

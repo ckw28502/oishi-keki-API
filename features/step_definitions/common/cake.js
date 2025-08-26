@@ -10,16 +10,6 @@ Given('id kue tidak valid', function () {
     this.cakeId = "invalid-uuid";
 });
 
-Given('nama kue {string}', function (name) {
-    this.reqBody = { name };
-});
-
-Given('harga {string}', function (price) {
-    if (price.length > 0) {
-        this.reqBody.price = parseInt(price);
-    }
-});
-
 Given('kue dengan nama {string} dan harga {int} telah ditambahkan', async function (name, price) {
     const cake = await Cake.create({ id: this.cakeId, name, price });
 });

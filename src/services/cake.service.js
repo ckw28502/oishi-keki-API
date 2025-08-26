@@ -54,4 +54,20 @@ const createCake = async (reqBody) => {
 
 }
 
-export default { getCakes, createCake };
+/**
+ * Express handler for editing an existing cake.
+ *
+ *
+ * @async
+ * @function editCake
+ * @param {Object} req - the cake data in the body.
+ * @returns {Promise<void>} Resolves when the update is successful.
+ * 
+ */
+const editCake = async (req) => {
+    const cakeEntity = new CakeEntity(req);
+    await cakeRepository.editCake(cakeEntity);
+};
+
+
+export default { getCakes, createCake, editCake };

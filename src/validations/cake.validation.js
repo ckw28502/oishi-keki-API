@@ -7,9 +7,18 @@ const getCakesSchema = z.object({
     sort: z.enum(["name_asc", "name_desc", "price_asc", "price_desc"], "Invalid sorting parameter"),
 }).readonly();
 
+const cakeIdParamSchema = z.object({
+    id: z.uuidv4("ID kue tidak valid!")
+}).readonly();
+
 const createCakeSchema = z.object({
     name: z.string("Nama kue tidak boleh kosong!").min(1, "Nama kue tidak boleh kosong!"),
     price: z.number("Harga kue harus angka!").positive("Harga kue harus lebih besar dari 0 Rupiah!")
 }).readonly();
 
-export { getCakesSchema, createCakeSchema };
+const editCakeSchema = z.object({
+    name: z.string("Nama kue tidak boleh kosong!").min(1, "Nama kue tidak boleh kosong!"),
+    price: z.number("Harga kue harus angka!").positive("Harga kue harus lebih besar dari 0 Rupiah!")
+}).readonly();
+
+export { getCakesSchema, cakeIdParamSchema, createCakeSchema, editCakeSchema };

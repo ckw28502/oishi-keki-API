@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import Cake from "../domain/models/cake.model.js";
 import { convertCakesModelsToEntities } from "../mappers/cake.mapper.js";
 import CakeEntity from "../domain/entities/cake.entity.js";
+import CakeNotFoundError from "../errors/400/cakeNotFound.error.js";
 
 /**
  * Retrieves a paginated list of cakes from the database with optional filtering and sorting.
@@ -55,7 +56,29 @@ const createCake = async (cakeEntity) => {
     return new CakeEntity(newCake);
 };
 
+/**
+ * Updates an existing cake entity in the database.
+ *
+ * @async
+ * @param {CakeEntity} cakeEntity - The cake object containing updated data.
+ * @throws {CakeNotFoundError} If no cake with the given ID exists in the database.
+ * @returns {Promise<void>} Resolves if the update is successful, otherwise throws.
+ *
+ */
+const editCake = async (cakeEntity) => {
+    const [affectedCount] = await Cake.update(
+        { name: cakeEntity.name, price: cakeEntity.price },
+        { where: { id: cakeEntity.id }, returning: true }
+    );
+
+    if (affectedCount === 0) {
+        throw new CakeNotFoundError();
+    }
+};
+
+
 export default {
     getCakes,
-    createCake
+    createCake,
+    editCake
 };

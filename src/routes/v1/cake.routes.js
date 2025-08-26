@@ -88,4 +88,41 @@ apiV1CakeRouter.get("/", authenticateAccessToken, cakeController.getCakes);
  */
 apiV1CakeRouter.post("/", authenticateAccessToken, authenticateOwner, cakeController.createCake);
 
+/**
+ * @swagger
+ * /api/v1/cakes/{id}:
+ *   put:
+ *     summary: Update a cake by ID
+ *     tags: [Cakes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: UUID of the cake
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Chocolate Cake"
+ *               price:
+ *                 type: number
+ *                 example: 150000
+ *     responses:
+ *       204:
+ *         description: Cake updated successfully
+ *       400:
+ *         description: Invalid input
+ *       404:
+ *         description: Cake not found
+ */
+apiV1CakeRouter.put("/:id", authenticateAccessToken, authenticateOwner, cakeController.editCake);
+
 export default apiV1CakeRouter;

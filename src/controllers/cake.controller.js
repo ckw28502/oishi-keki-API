@@ -1,5 +1,5 @@
 import cakeService from "../services/cake.service.js";
-import { createCakeSchema, getCakesSchema } from "../validations/cake.validation.js";
+import { cakeIdParamSchema, createCakeSchema, editCakeSchema, getCakesSchema } from "../validations/cake.validation.js";
 
 /**
  * Controller to handle the GET /cakes request with pagination, filtering, and sorting.
@@ -58,4 +58,24 @@ const createCake = async (req, res, next) => {
     }
 }
 
-export default { getCakes, createCake };
+/**
+ * Controller for handling the editing of an existing cake.
+ *
+ * Validates the request body, then delegates creation logic to the service layer.
+ *
+ * @param {import('express').Request} req - Express request object containing the cake data in the body.
+ * @param {import('express').Response} res - Express response object used to send the status.
+ * @param {import('express').NextFunction} next - Express next middleware function for error handling.
+ */
+const editCake = async (req, res, next) => {
+    try {
+        const { id } = await cakeIdParamSchema.parseAsync(req.params);
+        const reqBody = await editCakeSchema.parseAsync(req.body);
+        await cakeService.editCake({ id, ...reqBody });
+        res.sendStatus(204);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export default { getCakes, createCake, editCake };

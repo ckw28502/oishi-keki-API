@@ -3,7 +3,7 @@ import cakeService from "../../src/services/cake.service";
 import cakeRepository from "../../src/repositories/cake.repository.js";
 import { convertCakesEntitiesToDtos } from "../../src/mappers/cake.mapper.js";
 import CakeEntity from "../../src/domain/entities/cake.entity.js";
-import CakeDTO from "../../src/dto/cake.dto.js";
+import Cake from "../../src/domain/models/cake.model.js";
 
 vi.mock("../../src/repositories/cake.repository.js");
 
@@ -87,17 +87,15 @@ describe('Cake service', () => {
 
         it('should return the created cake object when Cake.create succeeds', async () => {
             // Arrange: mock a successful cake creation
-            const mockCake = new CakeEntity({ id: 1, ...cakeData });
-            cakeRepository.createCake.mockResolvedValue(mockCake);
+            const mockCreatedCake = new CakeEntity({ id: 1, ...cakeData });
+            cakeRepository.createCake.mockResolvedValue(new CakeEntity({ id: 1, ...cakeData }));
             
-            const expectedResult = { cake: new CakeDTO(mockCake) };
-
             // Act: call the service with valid data
-            const actualResult = await cakeService.createCake(cakeData);
+            await cakeService.createCake(cakeData);
 
             // Assert: verify correct DB call and return value
             expect(cakeRepository.createCake).toHaveBeenCalledExactlyOnceWith(new CakeEntity(cakeData));
-            expect(actualResult).toEqual(expectedResult);
+            expect(cakeRepository.createCake).toHaveResolvedWith(mockCreatedCake);
         });
     });
 });

@@ -53,4 +53,3 @@ Fitur: Menambahkan kue ke aplikasi
         Dan harga "100000"
         Ketika pengguna mengirimkan permintaan untuk membuat kue
         Maka status respons harus 201
-        Dan pesan respons harus kue yang ditambahkan

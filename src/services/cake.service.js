@@ -50,9 +50,8 @@ const createCake = async (reqBody) => {
     const cakeEntity = new CakeEntity(reqBody);
 
     // Create a new cake record in the database
-    const cake = await cakeRepository.createCake(cakeEntity);
+    await cakeRepository.createCake(cakeEntity);
 
-    return { cake: new CakeDTO(cake) };
 }
 
 export default { getCakes, createCake };

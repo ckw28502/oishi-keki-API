@@ -3,7 +3,7 @@ import cakeService from "../../src/services/cake.service";
 import cakeRepository from "../../src/repositories/cake.repository.js";
 import { convertCakesEntitiesToDtos } from "../../src/mappers/cake.mapper.js";
 import CakeEntity from "../../src/domain/entities/cake.entity.js";
-import Cake from "../../src/domain/models/cake.model.js";
+import { v4 as uuidv4 } from "uuid";
 
 vi.mock("../../src/repositories/cake.repository.js");
 
@@ -120,4 +120,27 @@ describe('Cake service', () => {
             expect(cakeRepository.editCake).toHaveBeenCalledExactlyOnceWith(new CakeEntity(cakeData));
         });
     });
+
+    describe("Delete cake", () => {
+        it('should throw an error when delete cake fails', async () => {
+            // Arrange: simulate a DB error when creating a cake
+            const error = new Error("DB Error");
+            cakeRepository.deleteCake.mockRejectedValue(error);
+
+            // Act + Assert: expect the service to throw the same error
+            await expect(cakeService.deleteCake(uuidv4())).rejects.toThrow(error.message);
+        });
+
+        it('should delete the cake when delete cake succeeds', async () => {
+            // Arrange: mock a successful cake creation
+            cakeRepository.deleteCake.mockResolvedValue();
+            const id = uuidv4();
+            
+            // Act: call the service with valid data
+            await cakeService.deleteCake(id);
+
+            // Assert: verify correct DB call and return value
+            expect(cakeRepository.deleteCake).toHaveBeenCalledExactlyOnceWith(id);
+        });
+    })
 });

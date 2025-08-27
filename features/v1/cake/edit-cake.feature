@@ -24,8 +24,6 @@ Fitur: Mengubah data kue di aplikasi
 
     Skenario konsep: Gagal karena id kue tidak valid
         Diketahui pengguna adalah pemilik
-        Dan nama kue yang baru adalah "Chocolate cake"
-        Dan harga yang baru adalah "100000"
         Dengan id kue tidak valid
         Ketika pengguna mengirimkan permintaan untuk mengubah data kue
         Maka status respons harus 400
@@ -58,7 +56,7 @@ Fitur: Mengubah data kue di aplikasi
         Dan pesan respons harus "Kue tidak ditemukan!"
 
     @cake
-    Skenario: Berhasil mengubah data kue kue
+    Skenario: Berhasil mengubah data kue
         Diketahui pengguna adalah pemilik
         Dan nama kue yang baru adalah "Chiffon cake"
         Dan harga yang baru adalah "100000"

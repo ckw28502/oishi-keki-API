@@ -46,6 +46,7 @@ const sendRequest = async (path, method, data, authHeader = "") => {
         
         case Methods.Delete:
             return await req.delete(path)
+                .send(data)
                 .set('Accept', 'application/json')
                 .set('Authorization', authHeader || "");
 

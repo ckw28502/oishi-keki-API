@@ -12,7 +12,47 @@ export async function up(queryInterface, Sequelize) {
       id: uuidv4(),
       name: "Chocolate cake",
       price: 100000
-    }
+    },
+    {
+      id: uuidv4(),
+      name: "Strawberry cake",
+      price: 145000
+    },
+    {
+      id: uuidv4(),
+      name: "Rainbow cake",
+      price: 125000
+    },
+    {
+      id: uuidv4(),
+      name: "Matcha cake",
+      price: 160000
+    },
+    {
+      id: uuidv4(),
+      name: "Cheese cake",
+      price: 140000
+    },
+    {
+      id: uuidv4(),
+      name: "Chocolate cake",
+      price: 100000
+    },
+    {
+      id: uuidv4(),
+      name: "Chocolate cake",
+      price: 100000
+    },
+    {
+      id: uuidv4(),
+      name: "Chocolate cake",
+      price: 100000
+    },
+    {
+      id: uuidv4(),
+      name: "Chocolate cake",
+      price: 100000
+    },
   ], {});
 }
 export async function down(queryInterface, Sequelize) {

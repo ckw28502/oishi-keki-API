@@ -35,22 +35,22 @@ export async function up(queryInterface, Sequelize) {
     },
     {
       id: uuidv4(),
-      name: "Chocolate cake",
-      price: 100000
+      name: "Red velvet cake",
+      price: 170000
     },
     {
       id: uuidv4(),
-      name: "Chocolate cake",
-      price: 100000
+      name: "Marble cake",
+      price: 135000
     },
     {
       id: uuidv4(),
-      name: "Chocolate cake",
-      price: 100000
+      name: "Blackforest cake",
+      price: 180000
     },
     {
       id: uuidv4(),
-      name: "Chocolate cake",
+      name: "Indomie cake",
       price: 100000
     },
   ], {});

@@ -1,9 +1,10 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import cakeService from "../../src/services/cake.service";
 import cakeRepository from "../../src/repositories/cake.repository.js";
 import { convertCakesEntitiesToDtos } from "../../src/mappers/cake.mapper.js";
 import CakeEntity from "../../src/domain/entities/cake.entity.js";
 import { v4 as uuidv4 } from "uuid";
+import CakeDTO from "../../src/dto/cake.dto.js";
 
 vi.mock("../../src/repositories/cake.repository.js");
 
@@ -17,6 +18,38 @@ describe('Cake service', () => {
     afterEach(() => {
         // Clear mock state after each test to avoid interference
         vi.clearAllMocks();
+    });
+    
+    describe("Get cake by ID", () => {
+        const id = uuidv4();
+
+        it('should throw an error when fetching cake by ID from database failed ', async () => {
+            // Arrange: simulate a DB error when fetching cake by ID
+            const error = new Error("DB Error");
+            cakeRepository.getCakeById.mockRejectedValue(error);
+
+            // Act + Assert: expect the service to throw the same error
+            await expect(cakeService.getCakeById(id)).rejects.toThrow(error.message);
+        });
+
+        it('should return the list of cakes when fetching cake by ID from database succesful', async () => {
+            // Arrange: mock a successful fetch of cake by ID
+            const mockCake = new CakeEntity({
+                id,
+                name: "Chocolate cake",
+                price: 120000
+            })
+            const expectedResult = new CakeDTO(mockCake);
+            
+            cakeRepository.getCakeById.mockResolvedValue(mockCake);
+
+            // Act: call the service with valid data
+            const actualResult = await cakeService.getCakeById(id);
+
+            // Assert: verify correct DB call and return value
+            expect(cakeRepository.getCakeById).toHaveBeenCalledExactlyOnceWith(id);
+            expect(actualResult).toEqual(expectedResult);
+        });
     });
 
     describe("Get cakes", () => {

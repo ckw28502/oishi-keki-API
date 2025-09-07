@@ -1,6 +1,5 @@
 import { Then, When } from "@cucumber/cucumber";
 import assert from "assert";
-import CakeDTO from "../../../../src/dto/cake.dto.js";
 import { Methods, sendRequest } from "../../common/helper.js";
 
 

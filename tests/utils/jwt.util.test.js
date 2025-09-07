@@ -4,8 +4,6 @@ import { generateTokens, verifyToken } from "../../src/utils/jwt.js";
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import env from "../../src/config/env.js";
 import crypto from 'crypto';
-import ExpiredAccessTokenError from "../../src/errors/401/expiredAccessToken.error.js";
-import TokenNotExpiredError from "../../src/errors/400/tokenNotExpired.error.js";
 
 describe('JWT Utility', () => {
     const role = Roles.Owner;
@@ -58,17 +56,6 @@ describe('JWT Utility', () => {
             expect(() => verifyToken(token, actualJwtSecret)).toThrow(JsonWebTokenError);
         });
 
-        it('should throw ExpiredAccessTokenError for an expired token', async () => {
-            // Arrange: Create a token with short expiration
-            const { token, jwtSecret } = generateTokenAndSecret("1ms");
-
-            // Wait for token to expire
-            await new Promise(resolve => setTimeout(resolve, 2));
-
-            // Act + Assert: Expect custom ExpiredAccessTokenError
-            expect(() => verifyToken(token, jwtSecret)).toThrow(ExpiredAccessTokenError);
-        });
-
         it('should successfully verify a valid access token', () => {
             // Arrange: Create a token with valid duration
             const { token, jwtSecret } = generateTokenAndSecret();
@@ -77,29 +64,6 @@ describe('JWT Utility', () => {
             const payload = verifyToken(token, jwtSecret);
 
             // Assert: Payload should be valid and match role
-            expect(payload).toBeDefined();
-            expect(payload.role).toBe(role);
-        });
-
-        it('should throw TokenNotExpiredError when token is expected to be expired but is still valid', () => {
-            // Arrange: Create a valid token
-            const { token, jwtSecret } = generateTokenAndSecret();
-
-            // Act + Assert: Expect custom TokenNotExpiredError due to valid token while expecting expiration
-            expect(() => verifyToken(token, jwtSecret, true)).toThrow(TokenNotExpiredError);
-        });
-
-        it('should decode expired token if expected to be expired', async () => {
-            // Arrange: Create a short-lived token
-            const { token, jwtSecret } = generateTokenAndSecret("1ms");
-
-            // Wait for token to expire
-            await new Promise(resolve => setTimeout(resolve, 2));
-
-            // Act: Call with expectExpired = true
-            const payload = verifyToken(token, jwtSecret, true);
-
-            // Assert: Payload should still be accessible
             expect(payload).toBeDefined();
             expect(payload.role).toBe(role);
         });

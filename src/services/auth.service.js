@@ -18,14 +18,15 @@ const credentials = [
 ];
 
 /** 
- * Authenticates a user based on username and password.
+ * Authenticates a user based on the login request body.
  * 
- * @param {string} username - The username of the user.
- * @param {string} password - The password of the user.
- * @returns {Promise<object>} - A promise that resolves to an object containing access and refresh tokens.
- * @throws {Error} - Throws an error if the username or password is incorrect.
+ * @param {Object} requestBody - The request body containing login credentials.
+ * @param {string} requestBody.username - The username of the user.
+ * @param {string} requestBody.password - The password of the user.
+ * @returns {Promise<Object>} A promise resolving to an object with access and refresh tokens.
+ * @throws {InvalidCredentialsError} Throws if username or password is invalid.
  */
-const login = async (username, password) => {
+const login = async ({ username, password }) => {
     // Check if the provided username and password match any of the credentials
     const user = credentials.find(cred => cred.username.toLowerCase() === username.toLowerCase() && cred.password === password);
 
@@ -35,9 +36,23 @@ const login = async (username, password) => {
     }
 
     // Generate authentication tokens for the user based on their role
-    const tokens = generateTokens(user.role);
-    
-    return tokens;
+    return generateTokens(user.role);
 };
 
-export default { login };
+
+
+/**
+ * Refreshes tokens by generating a new pair of tokens based on the user's role.
+ *
+ * @param {Object} payload - The payload object extracted from the verified refresh token.
+ * @param {string} payload.role - The user's role used to generate the new tokens.
+ *
+ * @returns {{ accessToken: string, refreshToken: string }} An object containing new access and refresh tokens.
+ */
+const refreshTokens = ({ role }) => {
+    // Generate a new access and refresh token based on the user's role
+    return generateTokens(role);
+};
+
+
+export default { login, refreshTokens };

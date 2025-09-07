@@ -30,12 +30,12 @@ Given('pengguna memiliki nama pengguna atau kata sandi yang tidak valid', functi
     };
 })
 
-Given('nama pengguna {string}', function (string) {
-    this.reqBody = { username: string };
+Given('nama pengguna {string}', function (username) {
+    this.reqBody = { username };
 });
 
-Given('kata sandi {string}', function (string) {
-    this.reqBody.password = string;
+Given('kata sandi {string}', function (password) {
+    this.reqBody.password = password;
 });
 
 When('pengguna mencoba untuk login', async function () {

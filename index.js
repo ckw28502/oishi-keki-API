@@ -4,7 +4,8 @@ import { setupSwagger } from './src/config/swagger.js';
 import env from './src/config/env.js';
 import apiRouter from './src/routes/api.js';
 import errorHandler from './src/middlewares/errorHandler.js';
-import sequelize from './src/config/db.js';
+import { createServer } from "http";
+import { setupSocket } from './src/config/socket.js';
 
 const app = express();
 
@@ -19,18 +20,21 @@ if (NODE_ENV === "dev") {
   setupSwagger(app);
 }
 
-// Use PORT from environment variables, default to 3000 if not specified
-const PORT = env.PORT;
-
 // Import the main API router
 app.use('/api', apiRouter);
 
 // Use the custom error handler middleware to handle errors globally
 app.use(errorHandler);
 
+// Create an HTTP server instance from the Express app
+const httpServer = createServer(app);
+
+// Initialize and attach Socket.IO to the HTTP server
+setupSocket(httpServer);
+
 // Start the Express server on the specified port
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+httpServer.listen(env.PORT, () => {
+  console.log(`Server running on port ${env.PORT}`);
 });
 
 // Export the app for testing or further use

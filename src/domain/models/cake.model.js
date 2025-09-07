@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/db.js";
+import sequelize from "../../config/db.js";
 
 // Define the Cake model using Sequelize ORM
 const Cake = sequelize.define("Cake", {
@@ -30,9 +30,7 @@ const Cake = sequelize.define("Cake", {
     }
 }, {
     tableName: "cakes",
-
-    // Automatically add and manage "createdAt" and "updatedAt" timestamp fields
-    timestamps: true
+    timestamps: true, // Automatically add and manage "createdAt" and "updatedAt" timestamp fields
 });
 
 export default Cake;

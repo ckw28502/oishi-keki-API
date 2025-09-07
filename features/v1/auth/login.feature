@@ -1,7 +1,7 @@
 # language: id
 Fitur: Login pengguna
 
-    Skenario: Login berhasil dengan kredensial yang valid
+    Skenario konsep: Login berhasil dengan kredensial yang valid
         Diketahui pengguna memiliki nama pengguna dan kata sandi yang valid untuk <peran>
         Ketika pengguna mencoba untuk login
         Maka status respons harus 200
@@ -18,7 +18,7 @@ Fitur: Login pengguna
         Maka status respons harus 400
         Dan pesan respons harus "Nama pengguna atau kata sandi salah"
 
-    Skenario: Login dengan kredensial yang tidak lengkap
+    Skenario konsep: Login dengan kredensial yang tidak lengkap
         Diketahui nama pengguna "<nama pengguna>"
         Dan kata sandi "<kata sandi>"
         Ketika pengguna mencoba untuk login

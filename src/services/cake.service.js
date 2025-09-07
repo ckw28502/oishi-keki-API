@@ -1,14 +1,110 @@
-import Cake from "../models/cake.js"
+import CakeEntity from "../domain/entities/cake.entity.js";
+import CakeDTO from "../dto/cake.dto.js";
+import { convertCakesEntitiesToDtos } from "../mappers/cake.mapper.js";
+import cakeRepository from "../repositories/cake.repository.js";
 
 /**
- * Handle the creation of a new cake object in the database.
- * 
- * @param {string} name - The name of the cake to be created.
- * @param {string} price - The price of the cake to be created.
+ * Service to fetch a single cake by its ID.
+ *
+ * This function retrieves the cake entity from the repository
+ * and maps it into a Data Transfer Object (DTO) before returning.
+ *
+ * @param {string} id - The unique identifier (UUIDv4) of the cake to retrieve.
+ * @returns {Promise<CakeDTO>} A promise that resolves to the CakeDTO object.
+ * @throws {CakeNotFoundError} If no cake is found with the given ID.
  */
-const createCake = async (name, price) => {
-    // Create a new cake record in the database
-    return await Cake.create({ name, price });
+const getCakeById = async (id) => {
+    const cake = await cakeRepository.getCakeById(id);
+    return new CakeDTO(cake);
 }
 
-export default { createCake };
+
+/**
+ * Service to fetch paginated, filtered, and sorted list of cakes from the database.
+ *
+ * @param {Object} params - Query parameters for fetching cakes
+ * @param {number} params.page - Current page number (1-based)
+ * @param {number} params.limit - Number of items per page
+ * @param {string} [params.nameFilter] - Optional filter for cake name (case-insensitive, partial match)
+ * @param {string} params.sort - Column to sort by ("name" or "price")
+ *
+ * @returns {Promise<Object>} Returns an object containing:
+ *  - cakes: Array of cake records matching the query
+ *  - totalPages: Total number of pages based on count and limit
+ *  - count: Total number of cakes matching the filter
+ */
+const getCakes = async ({ page, limit, nameFilter, sort }) => {
+    const offset = (page - 1) * limit;
+
+    const [sortParam, sortDirection] = sort.split("_");
+
+    const { count, cakes, totalPages } = await cakeRepository.getCakes({
+        offset,
+        limit,
+        nameFilter,
+        sortParam,
+        sortDirection: sortDirection.toUpperCase()
+    })
+
+    return {
+        cakes: convertCakesEntitiesToDtos(cakes),
+        totalPages,
+        count
+    };
+};
+
+
+/**
+ * Create a new cake record in the database.
+ *
+ * @param {Object} requestBody - The request body containing cake details.
+ * @param {string} requestBody.name - The name of the cake to be created.
+ * @param {number} requestBody.price - The price of the cake to be created.
+ * @returns {Promise<CakeDTO>} The created cake instance.
+ */
+const createCake = async (reqBody) => {
+    const cakeEntity = new CakeEntity(reqBody);
+
+    // Create a new cake record in the database
+    await cakeRepository.createCake(cakeEntity);
+
+}
+
+/**
+ * Edit an existing cake record in database.
+ *
+ *
+ * @async
+ * @function editCake
+ * @param {Object} req - the cake data in the body.
+ * @returns {Promise<void>} Resolves when the update is successful.
+ * 
+ */
+const editCake = async (req) => {
+    const cakeEntity = new CakeEntity(req);
+
+    // Edit the cake record in the database
+    await cakeRepository.editCake(cakeEntity);
+};
+
+/**
+ * Delete an existing cake record in database.
+ *
+ * @async
+ * @function deleteCake
+ * @param {string} id - the cake identifier.
+ * @returns {Promise<void>} Resolves when the deletion is successful.
+ * 
+ */
+const deleteCake = async (id) => {
+    await cakeRepository.deleteCake(id);
+}
+
+
+export default { 
+    getCakeById,
+    getCakes, 
+    createCake, 
+    editCake, 
+    deleteCake 
+};

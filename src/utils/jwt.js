@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
 import env from '../config/env.js';
-import ExpiredAccessTokenError from '../errors/401/expiredAccessToken.error.js';
-import TokenNotExpiredError from '../errors/400/tokenNotExpired.error.js';
 
 /** * Generates a JWT token with the given payload, secret, and expiration time.
  *
@@ -29,44 +27,18 @@ const generateTokens = (role) => {
     return { accessToken, refreshToken };
 }
 
-
-
 /**
- * Verifies a JWT token using the provided secret and handles expected expiration logic.
- * 
+ * Verifies a JWT token using the provided secret.
+ *
  * @param {string} token - The JWT token to verify.
  * @param {string} secret - The secret key used to verify the token.
- * @param {boolean} [expectExpired=false] - Whether the token is expected to be expired.
- *   - If `false`, verification proceeds normally. If the token is expired, an `ExpiredAccessTokenError` is thrown.
- *   - If `true`, and the token is **not** expired, a `TokenNotExpiredError` is thrown.
- *   - If `true`, and the token **is** expired, the decoded payload is returned without verifying the signature.
- * 
- * @returns {object} - The decoded token payload if valid or expired (depending on `expectExpired`).
- * 
- * @throws {ExpiredAccessTokenError} - When token is expired but `expectExpired` is false.
- * @throws {TokenNotExpiredError} - When token is not expired but `expectExpired` is true.
- * @throws {Error} - For other JWT verification errors.
+ * @returns {Object} The decoded payload if verification is successful.
+ * @throws {Error} If the token is invalid or verification fails.
  */
-const verifyToken = (token, secret, expectExpired = false) => {
-    try {
-        const payload = jwt.verify(token, secret);
+const verifyToken = (token, secret) => {
+    return jwt.verify(token, secret);
+};
 
-        if (expectExpired) {
-            throw new TokenNotExpiredError();
-        }
-
-        return payload;
-    } catch (error) {
-        if (error.name === "TokenExpiredError") {
-            if (!expectExpired) {
-                throw new ExpiredAccessTokenError();
-            }
-
-            return jwt.decode(token);
-        }
-        throw error;
-    }
-}
 
 
 export {

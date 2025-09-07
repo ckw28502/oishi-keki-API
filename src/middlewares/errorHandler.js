@@ -57,6 +57,7 @@ const handleSequelizeUniqueConstraintError = (err) => {
     const messages = err.errors
         .map(error => error.message)
         .join(', ');
+    console.log(messages)
 
     return new BadRequestError(messages);
 }

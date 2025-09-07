@@ -7,6 +7,32 @@ import env from "../../src/config/env.js";
 import { randomBytes } from 'crypto';
 
 describe('Authentication service', () => { 
+
+    const assertTokens = (tokens, role) => {
+        // Assert: Token object should be defined
+            expect(tokens).toBeDefined();
+
+            // Assert: Verify access token
+            expect(tokens.accessToken).toBeDefined();
+            expect(typeof tokens.accessToken).toBe("string");
+
+            // Assert: Verify access token payload
+            const accessTokenPayload = verifyToken(tokens.accessToken, env.JWT_ACCESS_TOKEN_SECRET);
+            expect(accessTokenPayload).toBeDefined();
+            expect(accessTokenPayload.role).toBeDefined();
+            expect(accessTokenPayload.role).toBe(role);
+
+            // Assert: Verify refresh token
+            expect(tokens.refreshToken).toBeDefined();
+            expect(typeof tokens.refreshToken).toBe("string");
+
+            // Asserts: Verify refresh token payload
+            const refreshTokenPayload = verifyToken(tokens.refreshToken, env.JWT_REFRESH_TOKEN_SECRET);
+            expect(refreshTokenPayload).toBeDefined();
+            expect(refreshTokenPayload.role).toBeDefined();
+            expect(refreshTokenPayload.role).toBe(role);
+    }
+
     describe('Login', () => { 
         // Helper: Generate a random string for invalid credentials
         const generateRandomString = () => {
@@ -32,7 +58,7 @@ describe('Authentication service', () => {
             }
         ])('Should throw InvalidCredentialsError for $testCase', async ({ username, password }) => {
             // Act + Assert: Login attempt should throw InvalidCredentialsError
-            await expect(authService.login(username, password)).rejects.toThrow(InvalidCredentialsError);
+            await expect(authService.login({ username, password })).rejects.toThrow(InvalidCredentialsError);
         });
 
         // Test valid login scenarios for both Owner and Employee
@@ -49,30 +75,23 @@ describe('Authentication service', () => {
             }
         ])('Should return valid access token and refresh token for $username', async ({ username, password, role }) => {
             // Act: Attempt login with valid credentials
-            const tokens = await authService.login(username, password);
+            const tokens = await authService.login({ username, password });
 
-            // Assert: Token object should be defined
-            expect(tokens).toBeDefined();
-
-            // Assert: Verify access token
-            expect(tokens.accessToken).toBeDefined();
-            expect(typeof tokens.accessToken).toBe("string");
-
-            // Assert: Verify access token payload
-            const accessTokenPayload = verifyToken(tokens.accessToken, env.JWT_ACCESS_TOKEN_SECRET);
-            expect(accessTokenPayload).toBeDefined();
-            expect(accessTokenPayload.role).toBeDefined();
-            expect(accessTokenPayload.role).toBe(role);
-
-            // Assert: Verify refresh token
-            expect(tokens.refreshToken).toBeDefined();
-            expect(typeof tokens.refreshToken).toBe("string");
-
-            // Asserts: Verify refresh token payload
-            const refreshTokenPayload = verifyToken(tokens.refreshToken, env.JWT_REFRESH_TOKEN_SECRET);
-            expect(refreshTokenPayload).toBeDefined();
-            expect(refreshTokenPayload.role).toBeDefined();
-            expect(refreshTokenPayload.role).toBe(role);
+            // Assert: Check the tokens validity
+            assertTokens(tokens, role);
         });
-    });    
+    });   
+    
+    describe('Refresh tokens', () => {
+        it('should create new tokens', async () => {
+            // Arrange: Set the payload of the refresh token
+            const payload = { role: Roles.Owner };
+
+            // Act: Generate new tokens from the payload
+            const tokens = authService.refreshTokens(payload);
+
+            // Assert: Check the tokens validity
+            assertTokens(tokens, payload.role);
+        });
+    })
 });

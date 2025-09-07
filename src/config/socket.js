@@ -11,4 +11,17 @@ const setupSocket = (httpServer) => {
     io = new Server(httpServer);
 }
 
-export { io, setupSocket };
+/**
+ * Gets the Socket.IO server instance.
+ * 
+ * @returns {Server} The Socket.IO server instance.
+ * @throws Will throw an error if the server has not been initialized.
+ */
+const getIo = () => {
+    if (!io) {
+        throw new Error("Socket.IO server not initialized. Call setupSocket first.");
+    }
+    return io;
+};
+
+export { getIo, setupSocket };

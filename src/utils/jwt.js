@@ -36,13 +36,7 @@ const generateTokens = (role) => {
  * @throws {Error} If the token is invalid or verification fails.
  */
 const verifyToken = (token, secret) => {
-    try {
-        // Attempt to verify the token using the given secret
-        return jwt.verify(token, secret);
-    } catch (error) {
-        // Re-throw the error so it can be handled by the calling function
-        throw error;
-    }
+    return jwt.verify(token, secret);
 };
 
 

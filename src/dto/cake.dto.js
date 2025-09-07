@@ -3,6 +3,15 @@
  * Used to transfer cake data between layers (e.g., service to controller or API response).
  */
 class CakeDTO {
+    /** @type {string | null} - Unique identifier of the cake */
+    id;
+
+    /** @type {string} - Name of the cake */
+    name;
+
+    /** @type {number} - Price of the cake */
+    price;
+
     /**
      * Creates a new CakeDTO.
      *

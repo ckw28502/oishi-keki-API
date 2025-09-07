@@ -7,6 +7,35 @@ const apiV1CakeRouter = express.Router();
 
 /**
  * @swagger
+ * /api/v1/cakes/{id}:
+ *   get:
+ *     summary: Get a cake by ID
+ *     tags:
+ *       - Cakes
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: UUID of the cake to delete
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       200:
+ *         description: cake data
+ *       400:
+ *        description: Invalid ID or request
+ *       401:
+ *        description: Unauthorized, missing or invalid token
+ *       500:
+ *        description: Internal server error
+ */
+apiV1CakeRouter.get("/:id", authenticateAccessToken, cakeController.getCakeById);
+
+/**
+ * @swagger
  * /api/v1/cakes:
  *   get:
  *     summary: Get paginated list of cakes

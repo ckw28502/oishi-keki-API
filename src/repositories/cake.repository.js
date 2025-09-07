@@ -4,6 +4,15 @@ import { convertCakesModelsToEntities } from "../mappers/cake.mapper.js";
 import CakeEntity from "../domain/entities/cake.entity.js";
 import CakeNotFoundError from "../errors/400/cakeNotFound.error.js";
 
+const getCakeById = async (id) => {
+    const cake = await Cake.findByPk(id);
+    if (!cake) {
+        throw new CakeNotFoundError();
+    }
+    
+    return new CakeEntity(cake);
+}
+
 /**
  * Retrieves a paginated list of cakes from the database with optional filtering and sorting.
  *
@@ -97,6 +106,7 @@ const deleteCake = async (id) => {
 
 
 export default {
+    getCakeById,
     getCakes,
     createCake,
     editCake,

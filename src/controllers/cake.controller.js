@@ -1,6 +1,22 @@
 import cakeService from "../services/cake.service.js";
 import { cakeIdParamSchema, createCakeSchema, editCakeSchema, getCakesSchema } from "../validations/cake.validation.js";
 
+const getCakeById = async (req, res, next) => {
+    try {
+        // Validate request parameters using Zod schema
+        const { id } = await cakeIdParamSchema.parseAsync(req.params);
+
+        // Fetch the cake using the service layer
+        const response = await cakeService.getCakeById(id);
+
+        // Respond with 200 OK and the cake data
+        res.status(200).json(response);
+    } catch (error) {
+        // Pass error to centralized error handler
+        next(error);
+    }
+}
+
 /**
  * Controller to handle the GET /cakes request with pagination, filtering, and sorting.
  *
@@ -98,7 +114,7 @@ const editCake = async (req, res, next) => {
 const deleteCake = async (req, res, next) => {
     try {
         // Validate request parameters using Zod schema
-        const { id } = await cakeIdParamSchema.parseAsync(req.params);;
+        const { id } = await cakeIdParamSchema.parseAsync(req.params);
 
         // Delete the cake using the service layer
         await cakeService.deleteCake(id);
@@ -113,6 +129,7 @@ const deleteCake = async (req, res, next) => {
 
 
 export default { 
+    getCakeById,
     getCakes, 
     createCake, 
     editCake,

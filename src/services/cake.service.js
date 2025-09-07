@@ -3,6 +3,11 @@ import CakeDTO from "../dto/cake.dto.js";
 import { convertCakesEntitiesToDtos } from "../mappers/cake.mapper.js";
 import cakeRepository from "../repositories/cake.repository.js";
 
+const getCakeById = async (id) => {
+    const cake = await cakeRepository.getCakeById(id);
+    return new CakeDTO(cake);
+}
+
 /**
  * Service to fetch paginated, filtered, and sorted list of cakes from the database.
  *
@@ -86,6 +91,7 @@ const deleteCake = async (id) => {
 
 
 export default { 
+    getCakeById,
     getCakes, 
     createCake, 
     editCake, 

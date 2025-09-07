@@ -1,6 +1,20 @@
 import cakeService from "../services/cake.service.js";
 import { cakeIdParamSchema, createCakeSchema, editCakeSchema, getCakesSchema } from "../validations/cake.validation.js";
 
+/**
+ * Controller to fetch a single cake by its ID.
+ *
+ * This function:
+ * 1. Validates the `id` parameter using Zod schema (`cakeIdParamSchema`).
+ * 2. Calls the service layer (`cakeService.getCakeById`) to retrieve the cake.
+ * 3. Responds with `200 OK` and the cake data if found.
+ * 4. Passes any errors (validation errors, not found errors, etc.) to the centralized error handler.
+ *
+ * @param {import("express").Request} req - Express request object containing route parameters.
+ * @param {import("express").Response} res - Express response object used to send the result.
+ * @param {import("express").NextFunction} next - Express next middleware function for error handling.
+ * @returns {Promise<void>} Sends a JSON response with the cake data if successful.
+ */
 const getCakeById = async (req, res, next) => {
     try {
         // Validate request parameters using Zod schema
@@ -16,6 +30,7 @@ const getCakeById = async (req, res, next) => {
         next(error);
     }
 }
+
 
 /**
  * Controller to handle the GET /cakes request with pagination, filtering, and sorting.

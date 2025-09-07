@@ -4,6 +4,17 @@ import { convertCakesModelsToEntities } from "../mappers/cake.mapper.js";
 import CakeEntity from "../domain/entities/cake.entity.js";
 import CakeNotFoundError from "../errors/400/cakeNotFound.error.js";
 
+/**
+ * Repository method to fetch a cake by its ID.
+ *
+ * This function queries the database using Sequelize's `findByPk` method.
+ * If a cake is found, it wraps the Sequelize model instance into a `CakeEntity`.
+ * If no cake exists with the provided ID, it throws a `CakeNotFoundError`.
+ * 
+ * @param {string} id - The unique identifier (UUIDv4) of the cake to retrieve.
+ * @returns {Promise<CakeEntity>} A promise that resolves to a CakeEntity instance.
+ * @throws {CakeNotFoundError} If no cake is found with the given ID.
+ */
 const getCakeById = async (id) => {
     const cake = await Cake.findByPk(id);
     if (!cake) {
@@ -12,6 +23,7 @@ const getCakeById = async (id) => {
     
     return new CakeEntity(cake);
 }
+
 
 /**
  * Retrieves a paginated list of cakes from the database with optional filtering and sorting.

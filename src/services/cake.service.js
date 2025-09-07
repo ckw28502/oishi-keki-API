@@ -3,10 +3,21 @@ import CakeDTO from "../dto/cake.dto.js";
 import { convertCakesEntitiesToDtos } from "../mappers/cake.mapper.js";
 import cakeRepository from "../repositories/cake.repository.js";
 
+/**
+ * Service to fetch a single cake by its ID.
+ *
+ * This function retrieves the cake entity from the repository
+ * and maps it into a Data Transfer Object (DTO) before returning.
+ *
+ * @param {string} id - The unique identifier (UUIDv4) of the cake to retrieve.
+ * @returns {Promise<CakeDTO>} A promise that resolves to the CakeDTO object.
+ * @throws {CakeNotFoundError} If no cake is found with the given ID.
+ */
 const getCakeById = async (id) => {
     const cake = await cakeRepository.getCakeById(id);
     return new CakeDTO(cake);
 }
+
 
 /**
  * Service to fetch paginated, filtered, and sorted list of cakes from the database.
